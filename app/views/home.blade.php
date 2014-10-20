@@ -1,5 +1,5 @@
 @extends ('layout.main')
 
 @section ('content')
-    Home.
+    Home. Just checking if it works
 @stop
