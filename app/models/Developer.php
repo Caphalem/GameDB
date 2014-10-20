@@ -9,4 +9,8 @@
 class Developer extends Eloquent{
     protected $fillable = array('title','description');
     protected $table = 'developers';
+
+    public function game(){
+        return $this->hasMany('Game');
+    }
 }
