@@ -6,7 +6,7 @@ class AccountController extends BaseController {
     }
 
     public function postcreate() {
-
+        return 'Create something';
     }
 
 }
