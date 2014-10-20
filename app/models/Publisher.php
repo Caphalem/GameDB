@@ -9,4 +9,8 @@
 class Publisher extends Eloquent{
     protected $fillable = array('title','description');
     protected $table = 'publisher';
+
+    public function game(){
+        return $this->hasMany('Game');
+    }
 }
