@@ -1,7 +1,7 @@
 @extends('layout.main')
 
 @section('content')
-    <form action="""{{ URL::route('account-create-post') }}" method="post">
+    <form action="{{ URL::route('account-create-post') }}" method="post">
 
         <div class="field">
             Email: <input type="text" name="email"{{ (Input::old('email')) ? ' value="' . e(Input::old('email')). '"': ''}}>
