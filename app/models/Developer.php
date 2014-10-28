@@ -7,6 +7,7 @@
  */
 
 class Developer extends Eloquent{
+    public $timestamps = false;
     protected $fillable = array('title','description');
     protected $table = 'developers';
 

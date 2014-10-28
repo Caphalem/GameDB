@@ -7,7 +7,8 @@
  */
 
 class Genre extends Eloquent {
-    protected $fillable = array('title');
+    public $timestamps = false;
+    protected $fillable = array('title','description');
     protected $table = 'genres';
 
     public function game_has_genre(){
