@@ -17,6 +17,25 @@ Route::group(array('before' => 'auth'), function() {
         'uses' => 'AccountController@getSignOut'
     ));
 
+    Route::group(array('before' => 'not_admin'), function() {
+
+        Route::get('admin/users', array(
+            'as' => 'admin-users',
+            'uses' => 'AdminController@showUsers'
+        ));
+
+        Route::get('admin/add-moderator/{id}', array(
+            'as' => 'admin-add_moderator',
+            'uses' => 'AdminController@addModerator'
+        ));
+
+        Route::get('admin/remove-moderator/{id}', array(
+            'as' => 'admin-remove_moderator',
+            'uses' => 'AdminController@removeModerator'
+        ));
+
+    });
+
 });
 /*
  * | Unautheticated group

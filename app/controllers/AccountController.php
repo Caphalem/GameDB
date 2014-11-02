@@ -79,7 +79,8 @@ class AccountController extends BaseController {
                 'last_name' => $last_name,
                 'password' => Hash::make($password),
                 'code' => $code,
-                'active' => 0
+                'active' => 0,
+                'role' => 0
             ));
 
             if($user){

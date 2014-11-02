@@ -14,15 +14,19 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-
+            @if(Auth::check())
+                @if(Auth::user()->role == 2)
+                    <li><a href="{{ URL::route('admin-users') }}">Users</a></li>
+                @endif
+            @endif
       </ul>
       <ul class="nav navbar-nav navbar-right">
         @if(Auth::check())
-                    <li><a href="{{ URL::route('account-sign-out') }}">Sign out</a></li>
-                @else
-                    <li><a href="{{ URL::route('account-create') }}">Register</a></li>
-                    <li><a href ="{{ URL::route('account-sign-in') }}">Sign in</a></li>
-                @endif
+            <li><a href="{{ URL::route('account-sign-out') }}">Sign out</a></li>
+        @else
+            <li><a href="{{ URL::route('account-create') }}">Register</a></li>
+            <li><a href ="{{ URL::route('account-sign-in') }}">Sign in</a></li>
+        @endif
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
