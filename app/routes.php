@@ -5,6 +5,23 @@ Route::get('/', array(
 ));
 
 /*
+ * | Autheticated group
+ */
+Route::group(array('before' => 'autht'), function() {
+      /*
+     * | Sign out (GET)
+     */
+
+    Route::get('/account/sign-out',array(
+        'as' => 'accounts-sign-out',
+        'uses' => 'AccountController@getSignOut'
+    ));
+
+
+
+
+});
+/*
  * | Unautheticated group
  */
 Route::group(array('before' => 'guest'), function() {
