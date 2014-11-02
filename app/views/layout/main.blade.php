@@ -3,13 +3,7 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-
-    <style>
-        table form { margin-bottom: 0; }
-        form ul { margin-left: 0; list-style: none; }
-        .error { color: red; font-style: italic; }
-        body { padding-top: 20px; }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}"
 </head>
 <body>
 <div class="container">
@@ -18,7 +12,6 @@
         <p>{{ Session::get('global') }}</p>
     </div>
     @endif
-
     @include('layout.navigation')
     @yield('content')
 </div>
