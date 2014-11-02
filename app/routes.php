@@ -7,18 +7,15 @@ Route::get('/', array(
 /*
  * | Autheticated group
  */
-Route::group(array('before' => 'autht'), function() {
+Route::group(array('before' => 'auth'), function() {
       /*
      * | Sign out (GET)
      */
 
     Route::get('/account/sign-out',array(
-        'as' => 'accounts-sign-out',
+        'as' => 'account-sign-out',
         'uses' => 'AccountController@getSignOut'
     ));
-
-
-
 
 });
 /*

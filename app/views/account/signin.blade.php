@@ -3,7 +3,7 @@
 @section('content')
     <form action="{{ URL::route('account-sign-in-post') }}" method="post">
     <div class="field">
-    Email:<input type="text" name="email" {{ (Input::old('email')) ? 'value="'. Input::old('email') . '"' : '' }}>
+    Email:<input type="text" name="email" {{ (Input::old('email')) ? 'value="' . Input::old('email') . '"' : ''}}>
     @if($errors->has('email'))
     {{ $errors->first('email') }}
     @endif
