@@ -1,5 +1,12 @@
 <?php
 class AccountController extends BaseController {
+    public function getSignIn(){
+        return View::make('account.signin');
+    }
+
+    public function postSignIn(){
+
+    }
 
     public function getCreate() {
         return View::make('account.create');

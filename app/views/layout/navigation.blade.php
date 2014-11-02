@@ -4,6 +4,7 @@
         @if(Auth::check())
 
         @else
+            <li><a href ="{{ URL::route('account-sign-n') }}">Sign in</a></li>
             <li><a href="{{ URL::route('account-create') }}">Create an account</a></li>
         @endif
     </ul>
