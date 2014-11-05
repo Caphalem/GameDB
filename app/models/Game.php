@@ -7,12 +7,13 @@
  */
 
 class Game extends Eloquent {
-    protected $fillable = array('title', 'publisher_id','developer_id','minimal_requirements_id','recomended_requirements_id','metacritic_score','release_date','link_to_metacritic','description','user_rating');
+    protected $fillable = array('box_art', 'title', 'publisher_id','developer_id','minimal_requirements_id','recomended_requirements_id','metacritic_score','release_date','link_to_metacritic','description','user_rating');
+    protected $guarded = 'id';
     protected $table = 'games';
 
     public function publisher(){
     return $this->belongsTo('Publisher');
-}
+    }
     public function developer() {
         return $this->belongsTo('Developer');
     }
