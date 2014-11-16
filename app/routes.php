@@ -34,6 +34,15 @@ Route::group(array('before' => 'auth'), function() {
             'uses' => 'AdminController@removeModerator'
         ));
 
+        Route::get('game/edit/{id}', array(
+            'as' => 'game-edit',
+            'uses' => 'GameController@editGameInfo'
+        ));
+        Route::post('game/edit/{id}', array(
+            'as' => 'game-edit',
+            'uses' => 'GameController@postEditGameInfo'
+        ));
+
     });
 
     Route::get('game/add/{user}/{game}', array(
@@ -45,6 +54,7 @@ Route::group(array('before' => 'auth'), function() {
         'as' => 'remove-from-list',
         'uses' => 'GameController@removeGameFromList'
     ));
+
 
 });
 /*
@@ -172,5 +182,6 @@ Route::get('game/show/{id}', array(
      'as' => 'game-show',
      'uses' => 'GameController@showGameInfo'
 ));
+
 
 Route::resource('game', 'GameController');

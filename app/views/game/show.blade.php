@@ -6,9 +6,12 @@
         <h1>{{ $game->title }}</h1><br>
         @if(Auth::check())
             @if($fav == 0)
-                Add to favorites <a href="{{ URL::route('add-to-list', array(Auth::user()->id, $game->id)) }}"><img src="{{ asset('images/add.png') }}"></a>
+                Add to favorites <a href="{{ URL::route('add-to-list', array(Auth::user()->id, $game->id)) }}"><img src="{{ asset('images/add.png') }}"></a><br>
             @elseif($fav == 1)
-                Remove from favorites <a href="{{ URL::route('remove-from-list', array(Auth::user()->id, $game->id)) }}"><img src="{{ asset('images/remove.png') }}"></a>
+                Remove from favorites <a href="{{ URL::route('remove-from-list', array(Auth::user()->id, $game->id)) }}"><img src="{{ asset('images/remove.png') }}"></a><br>
+            @endif
+            @if(Auth::user()->role == 2)
+                <a href="{{ URL::route('game-edit', $game->id) }}">Edit game information</a>
             @endif
         @endif
     </div>
