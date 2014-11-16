@@ -1,6 +1,7 @@
 <?php
 
-class GameController extends \BaseController {
+class GameController extends BaseController {
+
     public function showGameInfo($id) {
         $game = Game::find($id);
         $fav = -1;
