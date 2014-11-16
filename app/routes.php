@@ -36,6 +36,16 @@ Route::group(array('before' => 'auth'), function() {
 
     });
 
+    Route::get('game/add/{user}/{game}', array(
+        'as' => 'add-to-list',
+        'uses' => 'GameController@addGameToList'
+    ));
+
+    Route::get('game/remove/{user}/{game}', array(
+        'as' => 'remove-from-list',
+        'uses' => 'GameController@removeGameFromList'
+    ));
+
 });
 /*
  * | Unautheticated group

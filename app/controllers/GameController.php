@@ -17,6 +17,26 @@ class GameController extends BaseController {
         }
         return View::make('game.show')->with('game', $game)->with('fav', $fav);
     }
+
+    public function addGameToList($user, $game) {
+        $g = Game::find($game);
+        $u = User::find($user);
+        FavoriteGame::create(array(
+            'game_id' => $g->id,
+            'user_id' => $u->id
+        ));
+        return Redirect::route('game-show', $game);
+    }
+
+    public function removeGameFromList($user, $game) {
+        $g = Game::find($game);
+        $u = User::find($user);
+        $fg = FavoriteGame::where('user_id', '=', $u->id)->where('game_id', '=', $g->id);
+        $fg->delete();
+        return Redirect::route('game-show', $game);
+    }
+
+
 	/**
 	 * Display a listing of the resource.
 	 *

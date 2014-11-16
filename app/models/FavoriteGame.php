@@ -6,7 +6,7 @@
  * Time: 22:31
  */
 
-class Favorite_game extends Eloquent{
+class FavoriteGame extends Eloquent{
     protected $fillable = array('game_id','user_id');
     protected $table = 'favorite_games';
 
