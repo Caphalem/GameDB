@@ -73,7 +73,15 @@ class GameController extends BaseController {
 	 */
 	public function create()
 	{
-        return View::make('game.create');
+        $developers = Developer::lists('title', 'id');
+        $publishers = Publisher::lists('title', 'id');
+        $requirements = Requirements::select(DB::raw
+        ('concat (os," ",cpu," ",system_RAM," ",graphics_card," ",graphics_memory," ",hard_drive_space) as full_req,id'))
+            ->lists('full_req', 'id');
+        //$requirements = Requirements::lists('os', 'cpu', 'system_RAM', 'graphics_card', 'graphics_memory',
+        //                                    'hard_drive_space', 'id');
+        return View::make('game.create')->with('developers', $developers)->with('publishers', $publishers)
+                                        ->with('requirements', $requirements);
 	}
 
 
@@ -96,23 +104,20 @@ class GameController extends BaseController {
 
         $game->link_to_metacritic = Input::get('metacritic_link');
         $game->description = Input::get('description');
-        $game->publisher_id = Input::get('publisher_id');
-        $game->developer_id = Input::get('developer_id');
-        $game->minimal_requirements_id = Input::get('minimal_requirements_id');
-        $game->recomended_requirements_id = Input::get('recommended_requirements_id');
+        $game->publisher_id = Input::get('publishers');
+        $game->developer_id = Input::get('developers');
+        $game->minimal_requirements_id = Input::get('min_requirements');
+        $game->recomended_requirements_id = Input::get('rec_requirements');
 
-
-        $game->box_art = 'uploads/' . Input::file('box_art')->getClientOriginalName();
-        //$boxart = Input::file('box_art');
-        //$filename = $boxart->GetClientOriginalName();
-
-        //$path = public_path('public/img/'.$filename);
-        //Image::make($boxart->getRealPath())->resize(200, 200)->save($path);
-       // $game->box_art = 'public/img/'.$filename;
+        $file = Input::file('box_art');
+        $destinationPath = 'images/box_art';
+        $filename = $file->getClientOriginalName();
+        $game->box_art = $filename;
+        Input::file('box_art')->move($destinationPath, $filename);
 
         $game->save();
 
-        return Redirect::to('game.index');
+        return Redirect::to('game/index');
         //publisher
         //developer
         //minimal requirements
