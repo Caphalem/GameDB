@@ -46,6 +46,11 @@ Route::group(array('before' => 'auth'), function() {
         'uses' => 'GameController@removeGameFromList'
     ));
 
+    Route::get('favorite/remove/{user}/{game}', array(
+        'as' => 'remove-fav',
+        'uses' => 'GameController@removeFav'
+    ));
+
     Route::get('favorite', array(
         'as' => 'favorite',
         'uses' => 'GameController@favorite'

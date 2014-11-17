@@ -36,6 +36,14 @@ class GameController extends BaseController {
         return Redirect::route('game-show', $game);
     }
 
+    public function removeFav($user, $game) {
+        $g = Game::find($game);
+        $u = User::find($user);
+        $fg = FavoriteGame::where('user_id', '=', $u->id)->where('game_id', '=', $g->id);
+        $fg->delete();
+        return Redirect::route('favorite', $game);
+    }
+
     public function favorite() {
         $games = DB::table('games')
             ->join('favorite_games', 'games.id', '=', 'favorite_games.game_id')
