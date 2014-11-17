@@ -36,6 +36,16 @@ class GameController extends BaseController {
         return Redirect::route('game-show', $game);
     }
 
+    public function favorite() {
+        $games = DB::table('games')
+            ->join('favorite_games', 'games.id', '=', 'favorite_games.game_id')
+            ->join('users', 'users.id', '=', 'favorite_games.user_id')
+            ->where('users.id', '=', Auth::user()->id)
+            ->select('games.id', 'games.title')
+            ->get();
+        return View::make('game.favorite')->with('games', $games);
+    }
+
 
 	/**
 	 * Display a listing of the resource.
