@@ -8,6 +8,28 @@ Route::get('/', array(
  * | Autheticated group
  */
 Route::group(array('before' => 'auth'), function() {
+  /*
+  * | CSRF protection group
+  */
+        Route::group(array('before'=>'csrf'),function(){
+            /*
+     * | Change password (POST)
+     */
+            Route::post('/account/change-password',array(
+                'as' =>'account-change-password-post',
+                'uses'=>'AccountController@postChangePassword'
+            ));
+
+
+        });
+
+  /*
+  * | Change password (GET)
+  */
+        Route::get('/account/change-password',array(
+            'as' =>'account-change-password',
+            'uses'=>'AccountController@getChangePassword'
+        ));
       /*
      * | Sign out (GET)
      */

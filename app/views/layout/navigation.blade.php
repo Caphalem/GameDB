@@ -23,6 +23,7 @@
       <ul class="nav navbar-nav navbar-right">
         @if(Auth::check())
             <li><a href="{{ URL::route('account-sign-out') }}">Sign out</a></li>
+            <li><a href="{{URL::route('account-change-password')}}">Change password</a></li>
         @else
             <li><a href="{{ URL::route('account-create') }}">Register</a></li>
             <li><a href ="{{ URL::route('account-sign-in') }}">Sign in</a></li>
