@@ -21,7 +21,7 @@ return array(
     | you may use many connections at once using the Database library.
     |
     */
-    'default' => 'sqlite',
+    'default' => 'mysql',
     /*
     |--------------------------------------------------------------------------
     | Database Connections
