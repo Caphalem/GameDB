@@ -45,7 +45,14 @@ class GameController extends \BaseController {
     }
     public function editGameInfo($id) {
         $game = Game::find($id);
-        return View::make('game.edit')->with('game', $game);
+        $publishers = Publisher::all();
+        $developers = Developer::all();
+        $requirements = Requirements::all();
+        return View::make('game.edit')
+            ->with('game', $game)
+            ->with('publishers', $publishers)
+            ->with('developers', $developers)
+            ->with('requirements', $requirements);
     }
 
     public function postEditGameInfo($id) {

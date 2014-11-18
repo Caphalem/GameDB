@@ -12,10 +12,9 @@ body { padding-top: 20px; }
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.search  {
     margin: 20% auto;
     width: 70%;
 }
+
+
 

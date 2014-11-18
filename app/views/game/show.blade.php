@@ -69,7 +69,6 @@
                 <a href="{{ URL::route('game-edit', $game->id) }}">Edit game information</a>
             @endif
         @endif
-        @endif
     </div>
     <div class="col-md-5">
         <br>
