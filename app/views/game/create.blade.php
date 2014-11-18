@@ -8,23 +8,27 @@
         </div>
         {{--publisher--}}
         <div>
-            {{ Form::label('publisher', 'Publisher id: ') }}
-            {{ Form::number('publisher_id') }}
+            {{ Form::label('publisher', 'Publisher: ') }}
+            {{ Form::select('publishers', $publishers) }}
+            {{--{{ Form::number('publisher_id') }}--}}
         </div>
         {{--developer--}}
         <div>
-            {{ Form::label('developer', 'Developer id: ') }}
-            {{ Form::number('developer_id') }}
+            {{ Form::label('developer', 'Developer: ') }}
+            {{ Form::select('developers', $developers) }}
+            {{--{{ Form::number('developer_id') }}--}}
         </div>
         {{--minimal requirements--}}
         <div>
-            {{ Form::label('min req', 'Minimal requirements id: ') }}
-            {{ Form::number('minimal_requirements_id') }}
+            {{ Form::label('min req', 'Minimal requirements: ') }}
+            {{ Form::select('min_requirements', $requirements) }}
+            {{--{{ Form::number('minimal_requirements_id') }}--}}
         </div>
         {{--recommended requirements--}}
         <div>
-            {{ Form::label('req req', 'Recommended requirements id: ') }}
-            {{ Form::number('recommended_requirements_id') }}
+            {{ Form::label('rec req', 'Recommended requirements: ') }}
+            {{ Form::select('rec_requirements', $requirements) }}
+            {{--{{ Form::number('recommended_requirements_id') }}--}}
         </div>
         {{--metacritic score--}}
         {{--
