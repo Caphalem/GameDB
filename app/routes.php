@@ -184,7 +184,7 @@ Route::group(array('before' => 'guest'), function() {
 
     Route::get('game/show/{id}', array(
     'as' => 'game-show',
-    'uses' => 'GameController@show'));
+    'uses' => 'GameController@showGameInfo'));
 
 
     Route::post('game/show/{id}', array('before'=>'csrf', 'uses' => 'GameController@handleShow' ));
