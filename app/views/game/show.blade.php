@@ -67,17 +67,42 @@
         @endif
         @endif
     </div>
+    <div class="col-md-5">
+        <br>
+        <b>Publisher: </b>{{ $game->publisher->title }}<br>
+        <b>Developer: </b>{{ $game->developer->title }}<br>
+        <b>Metacritic score: </b>{{ $game->metacritic_score }}<br>
+        <b>User rating: </b>{{ $game->user_rating }}<br>
+        <b>Release date: </b>{{ $game->release_date }}<br>
+        <b>Link to metacritic: </b>{{ $game->link_to_metacritic }}<br><br>
+
+        <a href="" id="min_req">Minimal requirements</a>
+        <div class="min_req">
+            <a href="" id="min_hide">Hide minimal requirements</a><br>
+            OS: {{ $game->minimalRequirements->os }}<br>
+            CPU: {{ $game->minimalRequirements->cpu }}<br>
+            RAM: {{ $game->minimalRequirements->system_RAM }}<br>
+            Graphics card: {{ $game->minimalRequirements->graphics_card }}<br>
+            Graphics memory: {{ $game->minimalRequirements->graphics_memory }}<br>
+            Hard drive space: {{ $game->minimalRequirements->hard_drive_space }}
+        </div>
+        <br><a href="" id="rec_req">Recomended requirements</a>
+        <div class="rec_req">
+            <a href="" id="rec_hide">Hide recomended requirements</a><br>
+            OS: {{ $game->minimalRequirements->os }}<br>
+            CPU: {{ $game->minimalRequirements->cpu }}<br>
+            RAM: {{ $game->minimalRequirements->system_RAM }}<br>
+            Graphics card: {{ $game->minimalRequirements->graphics_card }}<br>
+            Graphics memory: {{ $game->minimalRequirements->graphics_memory }}<br>
+            Hard drive space: {{ $game->minimalRequirements->hard_drive_space }}
+        </div>
+    </div>
+    <div class="col-md-7">
+        <br>
+        <b>Description: </b>{{ $game->description }}<br><br>
+    </div>
     <div class="col-md-12">
-    <br>
-    <b>Publisher: </b>{{ $game->publisher->title }}<br>
-    <b>Developer: </b>{{ $game->developer->title }}<br>
-    <b>Minimal requirements: </b><br>
-    <b>Recomended requirements: </b><br>
-    <b>Metacritic score: </b>{{ $game->metacritic_score }}<br>
-    <b>User rating: </b>{{ $game->user_rating }}<br>
-    <b>Release date: </b>{{ $game->release_date }}<br>
-    <b>Link to metacritic: </b>{{ $game->link_to_metacritic }}<br>
-        <b>Description: </b>{{ $game->description }}<br>
+    <br><br>
         @for ($i=1; $i <= 5 ; $i++)
         <span class="glyphicon glyphicon-star{{ ($i <= $game->rating_cache) ? '' : '-empty'}}"></span>
         @endfor
@@ -112,5 +137,5 @@
         @endforeach
     </div>
 
-
+    <script src="{{ asset('js/show_hide.js') }}"
 @stop

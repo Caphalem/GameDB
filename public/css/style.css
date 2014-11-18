@@ -3,6 +3,10 @@ form ul { margin-left: 0; list-style: none; }
 .error { color: red; font-style: italic; }
 body { padding-top: 20px; }
 
+.min_req, .rec_req {
+    display: none;
+}
+
 .search {
     float: none;
     display: flex;
@@ -14,3 +18,4 @@ body { padding-top: 20px; }
     margin: 20% auto;
     width: 70%;
 }
+
