@@ -34,6 +34,15 @@ Route::group(array('before' => 'auth'), function() {
             'uses' => 'AdminController@removeModerator'
         ));
 
+        Route::get('game/edit/{id}', array(
+            'as' => 'game-edit',
+            'uses' => 'GameController@editGameInfo'
+        ));
+        Route::post('game/edit/{id}', array(
+            'as' => 'game-edit',
+            'uses' => 'GameController@postEditGameInfo'
+        ));
+
     });
 
     Route::get('game/add/{user}/{game}', array(
@@ -178,6 +187,11 @@ Route::group(array('before' => 'guest'), function() {
     Route::post('/requirements/edit', 'RequirementsController@handleEdit');
 //route to handle delete.
     Route::post('/requirements/delete', 'RequirementsController@handleDelete');
+
+Route::get('game/show/{id}', array(
+     'as' => 'game-show',
+     'uses' => 'GameController@showGameInfo'
+));
 
 
     Route::resource('game', 'GameController');

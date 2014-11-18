@@ -43,6 +43,35 @@ class GameController extends \BaseController {
         $fg->delete();
         return Redirect::route('favorite', $game);
     }
+    public function editGameInfo($id) {
+        $game = Game::find($id);
+        return View::make('game.edit')->with('game', $game);
+    }
+
+    public function postEditGameInfo($id) {
+        $validator = Validator::make(Input::all(),
+            array(
+                'title' => 'required',
+//                'publisher_id' => 'required',
+//                'developer_id' => 'required',
+
+            )
+        );
+        if($validator->fails()){
+            return Redirect::route('game-edit', $id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+        else{
+            $game = Game::find($id);
+            $game->title = Input::get('title');
+
+            if($game->save()){
+                return Redirect::route('game-show', $id)
+                    ->with('global','Game information was successfully updated');
+            }
+        }
+    }
 
     public function favorite() {
         $games = DB::table('games')
