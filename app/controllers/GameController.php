@@ -125,8 +125,6 @@ class GameController extends \BaseController {
         //YYYY-MM-DD
 	}
 
-
-	
     public function handleShow($id)
     {
         $input = array(

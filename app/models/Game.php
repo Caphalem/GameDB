@@ -17,10 +17,10 @@ class Game extends Eloquent {
     public function developer() {
         return $this->belongsTo('Developer');
     }
-    public function minimal_requirements() {
+    public function minimalRequirements() {
         return $this->belongsTo('Requirements');
     }
-    public function recomended_requirements() {
+    public function recomendedRequirements() {
         return $this->belongsTo('Requirements');
     }
 
@@ -30,13 +30,13 @@ class Game extends Eloquent {
     public function reviews(){
         return $this->hasMany('Review');
     }
-    public function favorite_game(){
+    public function favoriteGame(){
         return $this->hasMany('Favorite_game');
     }
     public function comment(){
         return $this->hasMany('Comment');
     }
-    public function game_has_genre(){
+    public function gameHasGenre(){
         return $this->hasMany('Game_has_genre');
     }
 

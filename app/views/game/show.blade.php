@@ -56,7 +56,7 @@
     }
 </style>
 
-<div class="col-md-2" style="background-color: #999999; height: 150px">The will be a picture</div>
+<div class="col-md-2"><img class="img-responsive" src="/public/images/box_art/{{ $game->box_art }}" ></div>
     <div class="col-md-10 vertical-center">
         <h1>{{ $game->title }}</h1><br>
         @if(Auth::check())
