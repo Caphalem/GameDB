@@ -1,14 +1,14 @@
 @extends ('layout.main')
 
 @section ('content')
-    <div align="center">
         <div class="search">
            <div class="input-group">
-                <input type="text" class="form-control">
-                <span class="input-group-btn">
-                <button class="btn btn-default" type="button">Search</button>
-             </span>
+               {{ Form::open(array('route' => 'results')) }}
+                   <span class="input-group-btn">
+                   {{ Form::text('query', '', array('class' => 'form-control')) }}
+                   {{ Form::submit('Search', array('class' => 'btn btn-default')) }}
+                   </span>
+               {{ Form::close() }}
            </div><!-- /input-group -->
        </div><!-- /.row -->
-    </div>
 @stop

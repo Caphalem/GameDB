@@ -4,6 +4,10 @@ Route::get('/', array(
     'uses' => 'HomeController@home'
 ));
 
+Route::post('/results', array(
+        'as' => 'results',
+        'uses' => 'HomeController@postResults'
+    ));
 /*
  * | Autheticated group
  */
