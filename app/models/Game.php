@@ -7,7 +7,7 @@
  */
 
 class Game extends Eloquent {
-    protected $fillable = array('box_art', 'title', 'publisher_id','developer_id','minimal_requirements_id','recomended_requirements_id','metacritic_score','release_date','link_to_metacritic','description','user_rating');
+    protected $fillable = array('box_art', 'title', 'publisher_id','developer_id','minimal_requirements_id','recommended_requirements_id','metacritic_score','release_date','link_to_metacritic','description','user_rating');
     protected $guarded = 'id';
     protected $table = 'games';
 
@@ -27,7 +27,7 @@ class Game extends Eloquent {
     public function rating(){
         return $this->hasMany('Rating');
     }
-    public function review(){
+    public function reviews(){
         return $this->hasMany('Review');
     }
     public function favorite_game(){
@@ -38,5 +38,14 @@ class Game extends Eloquent {
     }
     public function game_has_genre(){
         return $this->hasMany('Game_has_genre');
+    }
+
+    public function recalculateRating($rating)
+    {
+        $reviews = $this->reviews();
+        $avgRating = $reviews->avg('rating');
+        $this->rating_cache = round($avgRating,1);
+        $this->rating_count = $reviews->count();
+        $this->save();
     }
 }

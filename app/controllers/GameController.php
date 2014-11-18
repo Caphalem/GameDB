@@ -1,22 +1,21 @@
 <?php
 
-class GameController extends BaseController {
-
-    public function showGameInfo($id) {
-        $game = Game::find($id);
-        $fav = -1;
-        if (Auth::check()) {
-            $user = Auth::user()->id;
-            $fav = DB::table('games')
-                ->join('favorite_games', 'games.id', '=', 'favorite_games.game_id')
-                ->join('users', 'users.id', '=', 'favorite_games.user_id')
-                ->where('users.id', '=', $user)
-                ->where('games.id', '=', $id)
-                ->select('games.id')
-                ->count();
-        }
-        return View::make('game.show')->with('game', $game)->with('fav', $fav);
-    }
+class GameController extends \BaseController {
+//    public function showGameInfo($id) {
+//        $game = Game::find($id);
+//        $fav = -1;
+//        if (Auth::check()) {
+//            $user = Auth::user()->id;
+//            $fav = DB::table('games')
+//                ->join('favorite_games', 'games.id', '=', 'favorite_games.game_id')
+//                ->join('users', 'users.id', '=', 'favorite_games.user_id')
+//                ->where('users.id', '=', $user)
+//                ->where('games.id', '=', $id)
+//                ->select('games.id')
+//                ->count();
+//        }
+//        return View::make('game.show')->with('game', $game)->with('fav', $fav);
+//    }
 
     public function addGameToList($user, $game) {
         $g = Game::find($game);
@@ -55,7 +54,7 @@ class GameController extends BaseController {
     }
 
 
-	/**
+    /**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
@@ -127,10 +126,31 @@ class GameController extends BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
-	{
-		//
-	}
+    public function show($id)
+    {
+        $game = Game::find($id);
+        $fav = -1;
+// Get all reviews that are not spam for the product and paginate them
+        $reviews = $game->reviews()->with('user')->orderBy('created_at','desc')->paginate(10);
+        return View::make('game.show', array('game'=> $game,'reviews'=>$reviews,'fav'=>$fav));
+    }
+    public function handleShow($id)
+    {
+        $input = array(
+            'content' => Input::get('content'),
+            'rating' => Input::get('rating')
+        );
+// instantiate Rating model
+        $review = new Review;
+// Validate that the user's input corresponds to the rules specified in the review model
+        $validator = Validator::make( $input, $review->getCreateRules());
+// If input passes validation - store the review in DB, otherwise return to product page with error message
+        if ($validator->passes()) {
+            $review->storeReviewForGame($id, $input['content'], $input['rating']);
+            return Redirect::to('game/show/'.$id.'#reviews-anchor')->with('review_posted',true);
+        }
+        return Redirect::to('game/show/'.$id.'#reviews-anchor')->withErrors($validator)->withInput();
+    }
 
 
 	/**

@@ -7,7 +7,7 @@
  */
 
 class Review extends Eloquent {
-    protected $fillable = array('game_id','user_id');
+    protected $fillable = array('game_id','user_id', 'date', 'rating', 'content');
     protected $table = 'reviews';
 
     public function game(){
@@ -17,7 +17,27 @@ class Review extends Eloquent {
         return $this->belongsTo('User');
     }
 
-    public function comment(){
-        return $this->hasMany('Comment');
+    public function getCreateRules()
+    {
+        return array(
+            'rating'=>'required|integer|between:1,5'
+        );
+    }
+
+    public function getTimeagoAttribute()
+    {
+        $date = \Carbon\Carbon::createFromTimeStamp(strtotime($this->created_at))->diffForHumans();
+        return $date;
+    }
+// this function takes in product ID, comment and the rating and attaches the review to the product by its ID, then the average rating for the product is recalculated
+    public function storeReviewForGame($gameid, $content, $rating)
+    {
+        $game = Game::find($gameid);
+        $this->user_id = Auth::user()->id;
+        $this->content = $content;
+        $this->rating = $rating;
+        $game->reviews()->save($this);
+// recalculate ratings for the specified product
+        $game->recalculateRating($rating);
     }
 } 
