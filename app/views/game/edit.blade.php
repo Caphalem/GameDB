@@ -74,7 +74,7 @@
             <tr>
                 <td>Recomended requirements:</td>
                 <td>
-                    <select name="max" class="form-control">
+                    <select name="rec" class="form-control">
                         <option value="{{ $game->recomendedRequirements->id }}">
                             {{ $game->recomendedRequirements->os }},
                             {{ $game->recomendedRequirements->cpu }},

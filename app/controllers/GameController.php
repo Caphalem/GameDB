@@ -59,9 +59,14 @@ class GameController extends \BaseController {
         $validator = Validator::make(Input::all(),
             array(
                 'title' => 'required',
-//                'publisher_id' => 'required',
-//                'developer_id' => 'required',
-
+                'publisher' => 'required',
+                'developer' => 'required',
+                'min' => 'required',
+                'rec' => 'required',
+                'metacritic_score' => 'required|min:1|max:10',
+                'release_date' => 'required',
+                'link_to_metacritic' => 'required',
+                'description' => 'required'
             )
         );
         if($validator->fails()){
@@ -72,6 +77,14 @@ class GameController extends \BaseController {
         else{
             $game = Game::find($id);
             $game->title = Input::get('title');
+            $game->publisher_id = Input::get('publisher');
+            $game->developer_id = Input::get('developer');
+            $game->minimal_requirements_id = Input::get('min');
+            $game->recomended_requirements_id = Input::get('rec');
+            $game->metacritic_score = Input::get('metacritic_score');
+            $game->release_date = Input::get('release_date');
+            $game->link_to_metacritic = Input::get('link_to_metacritic');
+            $game->description = Input::get('description');
 
             if($game->save()){
                 return Redirect::route('game-show', $id)
