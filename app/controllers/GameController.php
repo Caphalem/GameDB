@@ -43,6 +43,55 @@ class GameController extends \BaseController {
         $fg->delete();
         return Redirect::route('favorite', $game);
     }
+    public function editGameInfo($id) {
+        $game = Game::find($id);
+        $publishers = Publisher::all();
+        $developers = Developer::all();
+        $requirements = Requirements::all();
+        return View::make('game.edit')
+            ->with('game', $game)
+            ->with('publishers', $publishers)
+            ->with('developers', $developers)
+            ->with('requirements', $requirements);
+    }
+
+    public function postEditGameInfo($id) {
+        $validator = Validator::make(Input::all(),
+            array(
+                'title' => 'required',
+                'publisher' => 'required',
+                'developer' => 'required',
+                'min' => 'required',
+                'rec' => 'required',
+                'metacritic_score' => 'required|min:1|max:10',
+                'release_date' => 'required',
+                'link_to_metacritic' => 'required',
+                'description' => 'required'
+            )
+        );
+        if($validator->fails()){
+            return Redirect::route('game-edit', $id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+        else{
+            $game = Game::find($id);
+            $game->title = Input::get('title');
+            $game->publisher_id = Input::get('publisher');
+            $game->developer_id = Input::get('developer');
+            $game->minimal_requirements_id = Input::get('min');
+            $game->recomended_requirements_id = Input::get('rec');
+            $game->metacritic_score = Input::get('metacritic_score');
+            $game->release_date = Input::get('release_date');
+            $game->link_to_metacritic = Input::get('link_to_metacritic');
+            $game->description = Input::get('description');
+
+            if($game->save()){
+                return Redirect::route('game-show', $id)
+                    ->with('global','Game information was successfully updated');
+            }
+        }
+    }
 
     public function favorite() {
         $games = DB::table('games')
