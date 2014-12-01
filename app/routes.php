@@ -69,6 +69,11 @@ Route::group(array('before' => 'auth'), function() {
             'uses' => 'GameController@postEditGameInfo'
         ));
 
+        Route::get('game/delete/{id}', array(
+            'as' => 'game-delete',
+            'uses' => 'GameController@deleteGame'
+        ));
+
     });
 
     Route::get('game/add/{user}/{game}', array(
