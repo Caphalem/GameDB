@@ -15,6 +15,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
             @if(Auth::check())
+                <li><a href="{{ URL::route('favorite') }}">Favorite games</a></li>
                 @if(Auth::user()->role == 2)
                     <li><a href="{{ URL::route('admin-users') }}">Users</a></li>
                 @endif
@@ -24,7 +25,8 @@
         @if(Auth::check())
             <li><a href="{{ URL::route('account-sign-out') }}">Sign out</a></li>
             <li><a href="{{URL::route('account-change-password')}}">Change password</a></li>
-        @else
+            <li><a href="{{URL::route('profile-user')}}">Profile</a></li>
+                    @else
             <li><a href="{{ URL::route('account-create') }}">Register</a></li>
             <li><a href ="{{ URL::route('account-sign-in') }}">Sign in</a></li>
         @endif

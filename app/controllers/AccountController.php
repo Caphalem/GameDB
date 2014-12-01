@@ -23,7 +23,7 @@ class AccountController extends BaseController {
                 'email'=> Input::get('email'),
                 'password' => Input::get('password'),
                 'active' => 1
-            ),$remember);
+        ),$remember);
 
             if($auth){
                 //Redirect to intended page
@@ -118,10 +118,10 @@ class AccountController extends BaseController {
         return Redirect::route('home')
             ->with('global', 'We could not activate your account. Try again later.');
     }
-        public function getChangePassword(){
+    public function getChangePassword(){
 
-            return View::make('account.password');
-        }
+        return View::make('account.password');
+    }
     public function postChangePassword(){
         $validator = Validator::make(Input::all(),
             array(
@@ -133,9 +133,9 @@ class AccountController extends BaseController {
         );
         if($validator->fails()){
             return Redirect::route('account-change-password')
-                    ->withErrors($validator);
+                ->withErrors($validator);
         }else{
-           $user            =User::find(Auth::user()->id);
+            $user            =User::find(Auth::user()->id);
 
             $old_password   = Input::get('old_password');
             $password       = Input::get('password');
@@ -146,7 +146,7 @@ class AccountController extends BaseController {
                 if($user->save()){
 
                     return Redirect::route('home')
-                            ->with('global','Your password has been changed.');
+                        ->with('global','Your password has been changed.');
                 }
             }else{
                 return Redirect::route('account-change-password')
@@ -154,6 +154,7 @@ class AccountController extends BaseController {
             }
         }
         return Redirect::route('account-change-password')->
-            with('global','Your password could not be changed.');
+        with('global','Your password could not be changed.');
     }
+
 }

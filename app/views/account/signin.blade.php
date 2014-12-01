@@ -8,6 +8,7 @@
     {{ $errors->first('email') }}
     @endif
     </div>
+
     <div class="field">
         Password:<input type="password" name="password">
          @if($errors->has('password'))
