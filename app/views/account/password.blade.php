@@ -2,7 +2,7 @@
 
 @section('content')
     <form action="{{URL::route('account-change-password-post')}}" method = "post">
-        <div class="field">
+                                   <div class="field">
                 Current password: <input type="password" name="old_password">
                 @if($errors->has('old_password'))
                     {{ $errors->first('old_password') }}

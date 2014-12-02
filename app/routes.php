@@ -8,42 +8,51 @@ Route::post('/results', array(
         'as' => 'results',
         'uses' => 'HomeController@postResults'
     ));
-
-/*Route::get('/user/{username}',array(
-    'as'=> 'profile-user',
-    'uses' => 'ProfileController@user'
-));*/
-
 /*
  * | Autheticated group
  */
 Route::group(array('before' => 'auth'), function() {
+  /*
+  * | CSRF protection group
+  */
+        Route::group(array('before'=>'csrf'),function(){
+            /*
+     * | Change password (POST)
+     */
+            Route::post('/account/change-password',array(
+                'as' =>'account-change-password-post',
+                'uses'=>'AccountController@postChangePassword'
+            ));
+
+
+        });
+
+  /*
+  * | Change password (GET)
+  */
+        Route::get('/account/change-password',array(
+            'as' =>'account-change-password',
+            'uses'=>'AccountController@getChangePassword'
+        ));
+      /*
+     * | Sign out (GET)
+     */
     /*
-* | CSRF protection group
-*/
+ * | CSRF protection group
+ */
     Route::group(array('before'=>'csrf'),function(){
         /*
- * | Change password (POST)
- */
-        Route::post('/account/change-password',array(
-            'as' =>'account-change-password-post',
-            'uses'=>'AccountController@postChangePassword'
+       * | Change information (POST)
+       */
+        Route::post('/profile/change-information',array(
+            'as' => 'profile-change-post',
+            'uses' => 'ProfileController@postChangeProfile'
         ));
 
-
     });
-
     /*
-    * | Change password (GET)
+    * | Profile (GET)
     */
-    Route::get('/account/change-password',array(
-        'as' =>'account-change-password',
-        'uses'=>'AccountController@getChangePassword'
-    ));
-
-    /*
-   * | Profile (GET)
-   */
 
     Route::get('/profile/user',array(
         'as' => 'profile-user',
@@ -51,9 +60,13 @@ Route::group(array('before' => 'auth'), function() {
     ));
 
     /*
-   * | Sign out (GET)
-   */
+    * | Change Profile (GET)
+    */
 
+    Route::get('/profile/change-information',array(
+        'as' => 'profile-change',
+        'uses' => 'ProfileController@getChangeProfile'
+    ));
     Route::get('/account/sign-out',array(
         'as' => 'account-sign-out',
         'uses' => 'AccountController@getSignOut'
@@ -83,6 +96,11 @@ Route::group(array('before' => 'auth'), function() {
         Route::post('game/edit/{id}', array(
             'as' => 'game-edit',
             'uses' => 'GameController@postEditGameInfo'
+        ));
+
+        Route::get('game/delete/{id}', array(
+            'as' => 'game-delete',
+            'uses' => 'GameController@deleteGame'
         ));
 
     });
