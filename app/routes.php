@@ -23,7 +23,10 @@ Route::group(array('before' => 'auth'), function() {
                 'as' =>'account-change-password-post',
                 'uses'=>'AccountController@postChangePassword'
             ));
-
+            Route::post('/profile/change-information',array(
+                'as' => 'profile-change-post',
+                'uses' => 'ProfileController@postChangeProfile'
+            ));
 
         });
 
@@ -34,22 +37,7 @@ Route::group(array('before' => 'auth'), function() {
             'as' =>'account-change-password',
             'uses'=>'AccountController@getChangePassword'
         ));
-      /*
-     * | Sign out (GET)
-     */
-    /*
- * | CSRF protection group
- */
-    Route::group(array('before'=>'csrf'),function(){
-        /*
-       * | Change information (POST)
-       */
-        Route::post('/profile/change-information',array(
-            'as' => 'profile-change-post',
-            'uses' => 'ProfileController@postChangeProfile'
-        ));
 
-    });
     /*
     * | Profile (GET)
     */
@@ -67,6 +55,9 @@ Route::group(array('before' => 'auth'), function() {
         'as' => 'profile-change',
         'uses' => 'ProfileController@getChangeProfile'
     ));
+  /*
+ * | Sign out (GET)
+ */
     Route::get('/account/sign-out',array(
         'as' => 'account-sign-out',
         'uses' => 'AccountController@getSignOut'
@@ -142,8 +133,25 @@ Route::group(array('before' => 'guest'), function() {
             'as' => 'account-create-post',
             'uses' =>'AccountController@postCreate'
         ));
+        /*
+        Forgot password (Post)
+        */
+        Route::post('/account/forgot-password', array(
+            'as' => 'account-forgot-password-post',
+            'uses' =>'AccountController@postForgotPassword'
+        ));
     });
-
+        /*
+       Forgot password (Get)
+       */
+    Route::get('/account/forgot-password', array(
+        'as' => 'account-forgot-password',
+        'uses' =>'AccountController@getForgotPassword'
+    ));
+    Route::get('/account/recover/{code}', array(
+        'as' => 'account-recover',
+        'uses' =>'AccountController@getRecover'
+    ));
     /*
       Sign in (Post)
       */

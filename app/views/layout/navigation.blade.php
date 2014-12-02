@@ -30,6 +30,7 @@
         @else
             <li><a href="{{ URL::route('account-create') }}">Register</a></li>
             <li><a href ="{{ URL::route('account-sign-in') }}">Sign in</a></li>
+            <li><a href ="{{ URL::route('account-forgot-password') }}">Forgot password</a></li>
         @endif
       </ul>
     </div><!-- /.navbar-collapse -->
