@@ -127,10 +127,36 @@ class GameController extends \BaseController {
         $requirements = Requirements::select(DB::raw
         ('concat (os," ",cpu," ",system_RAM," ",graphics_card," ",graphics_memory," ",hard_drive_space) as full_req,id'))
             ->lists('full_req', 'id');
+        $days = [];
+        for($i = 1; $i <= 31; $i++){
+            $val = ($i < 10) ? $i : $i;
+            $days[$val] = $val;
+        }
+        $months = [
+            '1' => 'January',
+            '2' => 'February',
+            '3' => 'March',
+            '4' => 'April',
+            '5' => 'May',
+            '6' => 'June',
+            '7' => 'July',
+            '8' => 'August',
+            '9' => 'September',
+            '10' => 'October',
+            '11' => 'November',
+            '12' => 'December'
+        ];
+        $years = [];
+        for($i = 1947; $i <= 2014; $i++){
+            $val = ($i < 10) ? $i : $i;
+            $years[$val] = $val;
+        }
+
         //$requirements = Requirements::lists('os', 'cpu', 'system_RAM', 'graphics_card', 'graphics_memory',
         //                                    'hard_drive_space', 'id');
         return View::make('game.create')->with('developers', $developers)->with('publishers', $publishers)
-                                        ->with('requirements', $requirements);
+                                        ->with('requirements', $requirements)->with('days', $days)
+                                        ->with('months', $months)->with('years', $years);
 	}
 
 
