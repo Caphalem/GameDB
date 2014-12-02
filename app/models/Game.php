@@ -7,7 +7,7 @@
  */
 
 class Game extends Eloquent {
-    protected $fillable = array('box_art', 'title', 'publisher_id','developer_id','minimal_requirements_id','recommended_requirements_id','metacritic_score','release_date','link_to_metacritic','description','user_rating');
+    protected $fillable = array('box_art', 'title', 'publisher_id','developer_id','minimal_requirements_id','recommended_requirements_id','metacritic_score','release_date','link_to_metacritic','description');
     protected $guarded = 'id';
     protected $table = 'games';
 
