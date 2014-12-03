@@ -94,6 +94,8 @@ Route::group(array('before' => 'auth'), function() {
             'uses' => 'GameController@deleteGame'
         ));
 
+        Route::resource('game', 'GameController');
+
     });
 
     Route::get('game/add/{user}/{game}', array(
@@ -263,7 +265,7 @@ Route::get('game/show/{id}', array(
 ));
 
 
-    Route::resource('game', 'GameController');
+
 
     Route::get('game/show/{id}', array(
     'as' => 'game-show',

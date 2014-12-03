@@ -24,13 +24,13 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         @if(Auth::check())
+            <li><a href="{{URL::route('profile-user')}}">Profile</a></li>
             <li><a href="{{URL::route('account-change-password')}}">Change password</a></li>
             <li><a href="{{ URL::route('account-sign-out') }}">Sign out</a></li>
-            <li><a href="{{URL::route('profile-user')}}">Profile</a></li>
         @else
             <li><a href="{{ URL::route('account-create') }}">Register</a></li>
             <li><a href ="{{ URL::route('account-sign-in') }}">Sign in</a></li>
-            <li><a href ="{{ URL::route('account-forgot-password') }}">Forgot password</a></li>
+            <li><a href ="{{ URL::route('account-forgot-password') }}"><small>Forgot password?</small></a></li>
         @endif
       </ul>
     </div><!-- /.navbar-collapse -->
