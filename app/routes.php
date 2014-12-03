@@ -152,7 +152,6 @@ Route::group(array('before' => 'guest'), function() {
         'as' => 'account-recover',
         'uses' =>'AccountController@getRecover'
     ));
-    });
 
     /*
       Sign in (Post)
