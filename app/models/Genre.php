@@ -11,7 +11,7 @@ class Genre extends Eloquent {
     protected $fillable = array('title','description');
     protected $table = 'genres';
 
-    public function game_has_genre(){
+    public function gameHasGenre(){
         return $this->hasMany('Game_has_genre');
     }
 } 

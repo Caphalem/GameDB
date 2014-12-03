@@ -152,6 +152,8 @@ Route::group(array('before' => 'guest'), function() {
         'as' => 'account-recover',
         'uses' =>'AccountController@getRecover'
     ));
+    });
+
     /*
       Sign in (Post)
       */
@@ -271,3 +273,18 @@ Route::get('game/show/{id}', array(
 
     Route::post('game/show/{id}', array('before'=>'csrf', 'uses' => 'GameController@handleShow' ));
 
+
+Route::post('/results/bytitle', array(
+    'as' => 'byTitle',
+    'uses' => 'HomeController@orderByTitle'
+));
+
+Route::post('/results/byrelease', array(
+    'as' => 'byRelease',
+    'uses' => 'HomeController@orderByRelease'
+));
+
+Route::post('/results/bypublisher', array(
+    'as' => 'byPublisher',
+    'uses' => 'HomeController@orderByPublisher'
+));
