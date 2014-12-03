@@ -1,76 +1,114 @@
 @extends ('layout.main')
+
 @section ('content')
-    {{ Form::open(array('route' => 'game.store', 'files' => true)) }}
-        {{--title--}}
-        <div>
-            {{ Form::label('title', 'Game title: ') }}
-            {{ Form::text('title') }}
+<div class="col-md-12">
+{{ Form::open(array('route' => 'game.store', 'files' => true)) }}
+{{--title--}}
+<div class="form-group col-md-6">
+    <label for="title">Title</label>
+    <input type="text" class="form-control" name="title"/>
+</div>
+{{--publisher--}}
+
+<div class="form-group col-md-3">
+        <label for="publisher">Publisher</label>
+         <div class="input-group">
+        {{ Form::select('publishers', $publishers, null, array('class'=>'form-control','style'=>'' )) }}
+         <div class="input-group-btn"><a href="{{ action('PublisherController@create') }}" class="btn btn-default">Add</a></div>
         </div>
-        {{--publisher--}}
-        <div>
-            {{ Form::label('publisher', 'Publisher: ') }}
-            {{ Form::select('publishers', $publishers) }}
-            {{--{{ Form::number('publisher_id') }}--}}
-        </div>
+    </div>
         {{--developer--}}
-        <div>
-            {{ Form::label('developer', 'Developer: ') }}
-            {{ Form::select('developers', $developers) }}
-            {{--{{ Form::number('developer_id') }}--}}
-        </div>
+            <div class="form-group col-md-3">
+
+                <label for="developer">Developer</label>
+                    <div class="input-group">
+                {{ Form::select('developers', $developers, null, array('class'=>'form-control','style'=>'' )) }}
+                    <div class="input-group-btn"><a href="{{ action('DeveloperController@create') }}" class="btn btn-default">Add</a></div>
+                </div>
+            </div>
+
+
         {{--minimal requirements--}}
-        <div>
-            {{ Form::label('min req', 'Minimal requirements: ') }}
-            {{ Form::select('min_requirements', $requirements) }}
-            {{--{{ Form::number('minimal_requirements_id') }}--}}
+        <div class="form-group col-md-6">
+            <label for="min_requirements">Minimal requirements</label>
+            <div class="input-group">
+                {{ Form::select('min_requirements', $requirements, null, array('class'=>'form-control','style'=>'' )) }}
+                <div class="input-group-btn"><a href="{{ action('RequirementsController@create') }}" class="btn btn-default">Add</a></div>
+            </div>
+
         </div>
         {{--recommended requirements--}}
-        <div>
-            {{ Form::label('rec req', 'Recommended requirements: ') }}
-            {{ Form::select('rec_requirements', $requirements) }}
-            {{--{{ Form::number('recommended_requirements_id') }}--}}
+    <div class="form-group col-md-6">
+        <label for="rec_requirements">Recommended requirements</label>
+        <div class="input-group">
+            {{ Form::select('rec_requirements', $requirements, null, array('class'=>'form-control','style'=>'' )) }}
+
+            <div class="input-group-btn"><a href="{{ action('RequirementsController@create') }}" class="btn btn-default">Add</a></div>
         </div>
-        {{--metacritic score--}}
-        {{--
-        <div>
-            {{ Form::label('metacritic_rating', 'Metacritic rating: ') }}
-            {{ Form::number('metacritic_rating') }}
-        </div>
-        --}}
+
+    </div>
+
         {{--release date--}}
-        <div>
-            {{ Form::label('release_date', '(Release Date) ') }}
-            {{ Form::label('day', 'Day: ') }}
-            {{ Form::number('day') }}
-            {{ Form::label('month', 'Month: ') }}
-            {{ Form::number('month') }}
-            {{ Form::label('year', 'Year: ') }}
-            {{ Form::number('year') }}
-        </div>
+    <div class="col-md-8">
+    <label for="release_date pull-left">Release Date</label>
+    </div>
+    <div class="col-md-4">
+    <label for="box_art">Box Art</label>
+    </div>
+
+    <div class="form-group col-md-2">
+                <div class="input-group">
+                    {{ Form::select('day', $days, '1', array('class'=>'form-control','style'=>'' ))}}
+                    <div class="input-group-addon left">Day</div>
+                </div>
+                </div>
+
+
+                <div class="form-group col-md-3">
+                <div class="input-group">
+                    {{ Form::select('month', $months, '1', array('class'=>'form-control','style'=>'' ))}}
+
+                    <div class="input-group-addon left">Month</div>
+                </div>
+                </div>
+
+                <div class="form-group col-md-3">
+                <div class="input-group">
+                    {{ Form::select('year', $years, '1', array('class'=>'form-control','style'=>'' ))}}
+
+                    <div class="input-group-addon left">Year</div>
+                </div>
+                </div>
+
+                {{--box art--}}
+                <div class="form-group col-md-4">
+
+                    {{ Form::file('box_art') }}
+                </div>
+
         {{--metacritic link--}}
-        <div>
-            {{ Form::label('metacritic_link', 'Metacritic link: ') }}
-            {{ Form::text('metacritic_link') }}
+        <div class="form-group col-md-9">
+            <label for="metacritic_link">Link to metacritic</label>
+            <input type="text" class="form-control" name="metacritic_link"/>
         </div>
-        {{--box art--}}
-        <div>
-            {{ Form::label('box_art', 'Box Art: ') }}
-            {{ Form::file('box_art') }}
-        </div>
+    {{--metacritic score--}}
+
+    <div class="form-group col-md-3">
+        <label for="metacritic_rating">Metacritic rating</label>
+
+        {{ Form::selectRange('metacritic_rating', 1, 100, null, array('class'=>'form-control','style'=>'' )) }}
+
+    </div>
+
         {{--description--}}
-        <div>
-            {{ Form::label('description', 'Game description: ') }}
-            {{ Form::text('description') }}
+        <div class="form-group col-md-12">
+            <label for="description">Description</label><br/>
+            <textarea class="form-control" rows="3" name="description"></textarea>
         </div>
-        {{--user rating--}}
-        {{--
-        <div>
-            {{ Form::label('user_rating', 'User rating (replace in the future): ') }}
-            {{ Form::number('user_rating') }}
+
+        {{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
+        {{ Form::close() }}
+
         </div>
-        --}}
 
-        {{ Form::submit('Submit Data') }}
-    {{ Form::close() }}
-
-@stop
+        @stop
