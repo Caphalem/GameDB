@@ -65,7 +65,12 @@ class GameController extends BaseController {
 		return View::make('game.index');
 	}
 
-
+    public function deleteReview($gameid, $reviewid)
+    {
+        $review = Review::find($reviewid);
+        $review->delete();
+        return Redirect::to('game/show/'.$gameid.'#reviews-anchor')->withInput();
+    }
 	/**
 	 * Show the form for creating a new resource.
 	 *
