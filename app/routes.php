@@ -4,14 +4,60 @@ Route::get('/', array(
     'uses' => 'HomeController@home'
 ));
 
+Route::post('/results', array(
+    'as' => 'results',
+    'uses' => 'HomeController@postResults'
+));
 /*
  * | Autheticated group
  */
 Route::group(array('before' => 'auth'), function() {
-      /*
-     * | Sign out (GET)
-     */
+    /*
+    * | CSRF protection group
+    */
+    Route::group(array('before'=>'csrf'),function(){
+        /*
+ * | Change password (POST)
+ */
+        Route::post('/account/change-password',array(
+            'as' =>'account-change-password-post',
+            'uses'=>'AccountController@postChangePassword'
+        ));
+        Route::post('/profile/change-information',array(
+            'as' => 'profile-change-post',
+            'uses' => 'ProfileController@postChangeProfile'
+        ));
 
+    });
+
+    /*
+    * | Change password (GET)
+    */
+    Route::get('/account/change-password',array(
+        'as' =>'account-change-password',
+        'uses'=>'AccountController@getChangePassword'
+    ));
+
+    /*
+    * | Profile (GET)
+    */
+
+    Route::get('/profile/user',array(
+        'as' => 'profile-user',
+        'uses' => 'ProfileController@getProfile'
+    ));
+
+    /*
+    * | Change Profile (GET)
+    */
+
+    Route::get('/profile/change-information',array(
+        'as' => 'profile-change',
+        'uses' => 'ProfileController@getChangeProfile'
+    ));
+    /*
+   * | Sign out (GET)
+   */
     Route::get('/account/sign-out',array(
         'as' => 'account-sign-out',
         'uses' => 'AccountController@getSignOut'
@@ -33,6 +79,22 @@ Route::group(array('before' => 'auth'), function() {
             'as' => 'admin-remove_moderator',
             'uses' => 'AdminController@removeModerator'
         ));
+
+        Route::get('game/edit/{id}', array(
+            'as' => 'game-edit',
+            'uses' => 'GameController@editGameInfo'
+        ));
+        Route::post('game/edit/{id}', array(
+            'as' => 'game-edit',
+            'uses' => 'GameController@postEditGameInfo'
+        ));
+
+        Route::get('game/delete/{id}', array(
+            'as' => 'game-delete',
+            'uses' => 'GameController@deleteGame'
+        ));
+
+        Route::resource('game', 'GameController');
 
     });
 
@@ -62,33 +124,51 @@ Route::group(array('before' => 'auth'), function() {
  */
 Route::group(array('before' => 'guest'), function() {
 
-   /*
- * | CSRF protection group
- */
+    /*
+  * | CSRF protection group
+  */
     Route::group(array('before' => 'csrf'), function() {
         /*
         Create account (POST)
         */
-            Route::post('/account/create/', array(
-                'as' => 'account-create-post',
-                'uses' =>'AccountController@postCreate'
-            ));
-        });
-
-        /*
-          Sign in (Post)
-          */
-        Route::post('/account/sign-in/', array(
-            'as' => 'account-sign-in-post',
-            'uses' =>'AccountController@postSignIn'
+        Route::post('/account/create/', array(
+            'as' => 'account-create-post',
+            'uses' =>'AccountController@postCreate'
         ));
         /*
-        Sign in (GET)
+        Forgot password (Post)
         */
-        Route::get('/account/sign-in/', array(
-            'as' => 'account-sign-in',
-            'uses' =>'AccountController@getSignIn'
+        Route::post('/account/forgot-password', array(
+            'as' => 'account-forgot-password-post',
+            'uses' =>'AccountController@postForgotPassword'
         ));
+    });
+    /*
+   Forgot password (Get)
+   */
+    Route::get('/account/forgot-password', array(
+        'as' => 'account-forgot-password',
+        'uses' =>'AccountController@getForgotPassword'
+    ));
+    Route::get('/account/recover/{code}', array(
+        'as' => 'account-recover',
+        'uses' =>'AccountController@getRecover'
+    ));
+
+    /*
+      Sign in (Post)
+      */
+    Route::post('/account/sign-in/', array(
+        'as' => 'account-sign-in-post',
+        'uses' =>'AccountController@postSignIn'
+    ));
+    /*
+    Sign in (GET)
+    */
+    Route::get('/account/sign-in/', array(
+        'as' => 'account-sign-in',
+        'uses' =>'AccountController@getSignIn'
+    ));
     /*
     Create account (GET)
     */
@@ -106,6 +186,7 @@ Route::group(array('before' => 'guest'), function() {
     ));
 
 });
+
 
 // connect with corresponding model.
 Route::model('publisher', 'Publisher');
@@ -179,8 +260,32 @@ Route::post('/requirements/edit', 'RequirementsController@handleEdit');
 Route::post('/requirements/delete', 'RequirementsController@handleDelete');
 
 Route::get('game/show/{id}', array(
-     'as' => 'game-show',
-     'uses' => 'GameController@showGameInfo'
+    'as' => 'game-show',
+    'uses' => 'GameController@showGameInfo'
 ));
 
-Route::resource('game', 'GameController');
+
+
+
+Route::get('game/show/{id}', array(
+    'as' => 'game-show',
+    'uses' => 'GameController@showGameInfo'));
+
+
+Route::post('game/show/{id}', array('before'=>'csrf', 'uses' => 'GameController@handleShow' ));
+
+
+Route::post('/results/bytitle', array(
+    'as' => 'byTitle',
+    'uses' => 'HomeController@orderByTitle'
+));
+
+Route::post('/results/byrelease', array(
+    'as' => 'byRelease',
+    'uses' => 'HomeController@orderByRelease'
+));
+
+Route::post('/results/bypublisher', array(
+    'as' => 'byPublisher',
+    'uses' => 'HomeController@orderByPublisher'
+));
