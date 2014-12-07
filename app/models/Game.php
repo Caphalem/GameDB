@@ -7,7 +7,7 @@
  */
 
 class Game extends Eloquent {
-    protected $fillable = array('box_art', 'title', 'publisher_id','developer_id','minimal_requirements_id','recomended_requirements_id','metacritic_score','release_date','link_to_metacritic','description','user_rating');
+    protected $fillable = array('box_art', 'title', 'publisher_id','developer_id','minimal_requirements_id','recommended_requirements_id','metacritic_score','release_date','link_to_metacritic','description');
     protected $guarded = 'id';
     protected $table = 'games';
 
@@ -17,26 +17,35 @@ class Game extends Eloquent {
     public function developer() {
         return $this->belongsTo('Developer');
     }
-    public function minimal_requirements() {
+    public function minimalRequirements() {
         return $this->belongsTo('Requirements');
     }
-    public function recomended_requirements() {
+    public function recomendedRequirements() {
         return $this->belongsTo('Requirements');
     }
 
     public function rating(){
         return $this->hasMany('Rating');
     }
-    public function review(){
+    public function reviews(){
         return $this->hasMany('Review');
     }
-    public function favorite_game(){
+    public function favoriteGame(){
         return $this->hasMany('Favorite_game');
     }
     public function comment(){
         return $this->hasMany('Comment');
     }
-    public function game_has_genre(){
+    public function gameHasGenre(){
         return $this->hasMany('Game_has_genre');
+    }
+
+    public function recalculateRating($rating)
+    {
+        $reviews = $this->reviews();
+        $avgRating = $reviews->avg('rating');
+        $this->rating_cache = round($avgRating,1);
+        $this->rating_count = $reviews->count();
+        $this->save();
     }
 }

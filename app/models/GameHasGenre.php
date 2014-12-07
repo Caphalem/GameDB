@@ -6,7 +6,7 @@
  * Time: 22:33
  */
 
-class Game_has_genre extends Eloquent{
+class GameHasGenre extends Eloquent{
     protected $fillable = array('games_id','genres_id');
     protected $table = 'games_has_genres';
 

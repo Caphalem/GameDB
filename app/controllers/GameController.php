@@ -1,21 +1,24 @@
 <?php
 
-class GameController extends BaseController {
-
+class GameController extends \BaseController {
     public function showGameInfo($id) {
         $game = Game::find($id);
-        $fav = -1;
-        if (Auth::check()) {
-            $user = Auth::user()->id;
-            $fav = DB::table('games')
-                ->join('favorite_games', 'games.id', '=', 'favorite_games.game_id')
-                ->join('users', 'users.id', '=', 'favorite_games.user_id')
-                ->where('users.id', '=', $user)
-                ->where('games.id', '=', $id)
-                ->select('games.id')
-                ->count();
+        if ($game) {
+            $reviews = $game->reviews()->with('user')->orderBy('created_at','desc')->paginate(10);
+            $fav = -1;
+            if (Auth::check()) {
+                $user = Auth::user()->id;
+                $fav = DB::table('games')
+                    ->join('favorite_games', 'games.id', '=', 'favorite_games.game_id')
+                    ->join('users', 'users.id', '=', 'favorite_games.user_id')
+                    ->where('users.id', '=', $user)
+                    ->where('games.id', '=', $id)
+                    ->select('games.id')
+                    ->count();
+            }
+            return View::make('game.show')->with('game', $game)->with('fav', $fav)->with('reviews', $reviews);
         }
-        return View::make('game.show')->with('game', $game)->with('fav', $fav);
+        return Redirect::route('home');
     }
 
     public function addGameToList($user, $game) {
@@ -43,6 +46,55 @@ class GameController extends BaseController {
         $fg->delete();
         return Redirect::route('favorite', $game);
     }
+    public function editGameInfo($id) {
+        $game = Game::find($id);
+        $publishers = Publisher::all();
+        $developers = Developer::all();
+        $requirements = Requirements::all();
+        return View::make('game.edit')
+            ->with('game', $game)
+            ->with('publishers', $publishers)
+            ->with('developers', $developers)
+            ->with('requirements', $requirements);
+    }
+
+    public function postEditGameInfo($id) {
+        $validator = Validator::make(Input::all(),
+            array(
+                'title' => 'required',
+                'publisher' => 'required',
+                'developer' => 'required',
+                'min' => 'required',
+                'rec' => 'required',
+                'metacritic_score' => 'required|min:1|max:10',
+                'release_date' => 'required',
+                'link_to_metacritic' => 'required',
+                'description' => 'required'
+            )
+        );
+        if($validator->fails()){
+            return Redirect::route('game-edit', $id)
+                ->withErrors($validator)
+                ->withInput();
+        }
+        else{
+            $game = Game::find($id);
+            $game->title = Input::get('title');
+            $game->publisher_id = Input::get('publisher');
+            $game->developer_id = Input::get('developer');
+            $game->minimal_requirements_id = Input::get('min');
+            $game->recomended_requirements_id = Input::get('rec');
+            $game->metacritic_score = Input::get('metacritic_score');
+            $game->release_date = Input::get('release_date');
+            $game->link_to_metacritic = Input::get('link_to_metacritic');
+            $game->description = Input::get('description');
+
+            if($game->save()){
+                return Redirect::route('game-show', $id)
+                    ->with('global','Game information was successfully updated');
+            }
+        }
+    }
 
     public function favorite() {
         $games = DB::table('games')
@@ -55,7 +107,7 @@ class GameController extends BaseController {
     }
 
 
-	/**
+    /**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
@@ -78,7 +130,41 @@ class GameController extends BaseController {
 	 */
 	public function create()
 	{
-        return View::make('game.create');
+        $developers = Developer::lists('title', 'id');
+        $publishers = Publisher::lists('title', 'id');
+        $requirements = Requirements::select(DB::raw
+        ('concat (os," ",cpu," ",system_RAM," ",graphics_card," ",graphics_memory," ",hard_drive_space) as full_req,id'))
+            ->lists('full_req', 'id');
+        $days = [];
+        for($i = 1; $i <= 31; $i++){
+            $val = ($i < 10) ? $i : $i;
+            $days[$val] = $val;
+        }
+        $months = [
+            '1' => 'January',
+            '2' => 'February',
+            '3' => 'March',
+            '4' => 'April',
+            '5' => 'May',
+            '6' => 'June',
+            '7' => 'July',
+            '8' => 'August',
+            '9' => 'September',
+            '10' => 'October',
+            '11' => 'November',
+            '12' => 'December'
+        ];
+        $years = [];
+        for($i = 1947; $i <= 2014; $i++){
+            $val = ($i < 10) ? $i : $i;
+            $years[$val] = $val;
+        }
+
+        //$requirements = Requirements::lists('os', 'cpu', 'system_RAM', 'graphics_card', 'graphics_memory',
+        //                                    'hard_drive_space', 'id');
+        return View::make('game.create')->with('developers', $developers)->with('publishers', $publishers)
+                                        ->with('requirements', $requirements)->with('days', $days)
+                                        ->with('months', $months)->with('years', $years);
 	}
 
 
@@ -101,23 +187,20 @@ class GameController extends BaseController {
 
         $game->link_to_metacritic = Input::get('metacritic_link');
         $game->description = Input::get('description');
-        $game->publisher_id = Input::get('publisher_id');
-        $game->developer_id = Input::get('developer_id');
-        $game->minimal_requirements_id = Input::get('minimal_requirements_id');
-        $game->recomended_requirements_id = Input::get('recommended_requirements_id');
+        $game->publisher_id = Input::get('publishers');
+        $game->developer_id = Input::get('developers');
+        $game->minimal_requirements_id = Input::get('min_requirements');
+        $game->recomended_requirements_id = Input::get('rec_requirements');
 
-
-        $game->box_art = 'uploads/' . Input::file('box_art')->getClientOriginalName();
-        //$boxart = Input::file('box_art');
-        //$filename = $boxart->GetClientOriginalName();
-
-        //$path = public_path('public/img/'.$filename);
-        //Image::make($boxart->getRealPath())->resize(200, 200)->save($path);
-       // $game->box_art = 'public/img/'.$filename;
+        $file = Input::file('box_art');
+        $destinationPath = 'images/box_art';
+        $filename = $file->getClientOriginalName();
+        $game->box_art = $filename;
+        Input::file('box_art')->move($destinationPath, $filename);
 
         $game->save();
 
-        return Redirect::to('game.index');
+        return Redirect::route('game-show', $game->id);
         //publisher
         //developer
         //minimal requirements
@@ -125,17 +208,23 @@ class GameController extends BaseController {
         //YYYY-MM-DD
 	}
 
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
+    public function handleShow($id)
+    {
+        $input = array(
+            'content' => Input::get('content'),
+            'rating' => Input::get('rating')
+        );
+// instantiate Rating model
+        $review = new Review;
+// Validate that the user's input corresponds to the rules specified in the review model
+        $validator = Validator::make( $input, $review->getCreateRules());
+// If input passes validation - store the review in DB, otherwise return to product page with error message
+        if ($validator->passes()) {
+            $review->storeReviewForGame($id, $input['content'], $input['rating']);
+            return Redirect::to('game/show/'.$id.'#reviews-anchor')->with('review_posted',true);
+        }
+        return Redirect::to('game/show/'.$id.'#reviews-anchor')->withErrors($validator)->withInput();
+    }
 
 
 	/**
@@ -176,6 +265,13 @@ class GameController extends BaseController {
     public function missingMethod($parameters = array())
     {
         //
+    }
+
+    public function deleteGame($id)
+    {
+        $game = Game::find($id);
+        $game->delete();
+        return Redirect::route('game-show', $id);
     }
 
 }
