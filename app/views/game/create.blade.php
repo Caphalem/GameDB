@@ -1,5 +1,9 @@
 @extends ('layout.main')
 
+@section('head')
+    <title>Add new game</title>
+@stop
+
 @section ('content')
 <div class="col-md-12">
 {{ Form::open(array('route' => 'game.store', 'files' => true)) }}

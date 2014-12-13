@@ -118,6 +118,11 @@ Route::group(array('before' => 'auth'), function() {
         'uses' => 'GameController@favorite'
     ));
 
+    Route::get('review-delete/{gid}/{rid}', array(
+        'as' => 'review-delete',
+        'uses' => 'GameController@deleteReview'
+    ));
+
 });
 /*
  * | Unautheticated group

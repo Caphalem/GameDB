@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('head')
+    <title>Forgot password</title>
+@stop
+
 @section('content')
  <form action="{{URL::route('account-forgot-password-post')}}" method = "post">
   <div class="field">

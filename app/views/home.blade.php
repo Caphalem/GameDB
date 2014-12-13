@@ -1,5 +1,9 @@
 @extends ('layout.main')
 
+@section('head')
+    <title>GameDB</title>
+@stop
+
 @section ('content')
         <div class="search">
            <div class="input-group">

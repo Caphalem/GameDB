@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('head')
+    <title>Users</title>
+@stop
+
 @section('content')
     <h2>All users</h2>
 

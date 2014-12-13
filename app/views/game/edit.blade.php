@@ -1,5 +1,9 @@
 @extends ('layout.main')
 
+@section('head')
+    <title>Edit game</title>
+@stop
+
 @section ('content')
 
     <h2>Edit game information</h2>

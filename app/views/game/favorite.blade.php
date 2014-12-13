@@ -1,5 +1,9 @@
 @extends ('layout.main')
 
+@section('head')
+    <title>Favorite games</title>
+@stop
+
 @section ('content')
     @if(!$games)
 <div class="page-header" style="text-align: center">

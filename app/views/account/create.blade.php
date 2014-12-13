@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('head')
+    <title>Create account</title>
+@stop
+
 @section('content')
     <form action="{{ URL::route('account-create-post') }}" method="post">
 

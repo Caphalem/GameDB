@@ -1,4 +1,9 @@
 @extends('layout.main')
+
+@section('head')
+    <title>{{ $game->title }}</title>
+@stop
+
 @section('content')
 
 {{HTML::script('js/expanding.js')}}
@@ -78,7 +83,7 @@
         <b>Metacritic score: </b>{{ $game->metacritic_score }}<br>
         <b>User rating: </b>{{ $game->user_rating }}<br>
         <b>Release date: </b>{{ $game->release_date }}<br>
-        <b>Link to metacritic: </b>{{ $game->link_to_metacritic }}<br><br>
+        <b>Link to metacritic: </b><a href="{{ $game->link_to_metacritic }}" target="_blank">{{ $game->link_to_metacritic }}</a><br><br>
 
         <a href="" id="min_req">Minimal requirements</a>
         <div class="min_req">
@@ -134,7 +139,7 @@
                 @for ($i=1; $i <= 5 ; $i++)
                 <span class="glyphicon glyphicon-star{{ ($i <= $review->rating) ? '' : '-empty'}}"></span>
                 @endfor
-                {{ $review->user ? $review->user->username : 'Anonymous'}} <span class="pull-right">{{$review->timeago}}</span>
+                {{ $review->user ? $review->user->username : 'Anonymous'}} <span class="pull-right">{{$review->timeago}}<br><a href="{{ URL::route('review-delete', array($game->id, $review->id)) }}" onclick="return confirm('Are you really want to delete this review?')">Delete review</a><br></span>
                 <p>{{{$review->content}}}</p>
             </div>
         </div>

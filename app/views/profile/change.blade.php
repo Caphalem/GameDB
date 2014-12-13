@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('head')
+    <title>Change profile</title>
+@stop
+
 @section('content')
    <form action="{{URL::route('profile-change-post')}}" method = "post">
 

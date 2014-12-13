@@ -1,4 +1,9 @@
 @extends ('layout.main')
+
+@section('head')
+    <title>Search results</title>
+@stop
+
 @section ('content')
 
     @if ($games->isEmpty())

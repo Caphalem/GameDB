@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('head')
+    <title>Sign in</title>
+@stop
+
 @section('content')
     <form action="{{ URL::route('account-sign-in-post') }}" method="post">
 

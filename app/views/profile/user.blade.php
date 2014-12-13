@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('head')
+    <title>My profile</title>
+@stop
+
 @section('content')
 <p> Username: {{ e(Auth::user()->username); }} </p>
 <p> First name: {{ e(Auth::user()->first_name); }} </p>
