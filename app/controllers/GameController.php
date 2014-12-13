@@ -83,12 +83,10 @@ class GameController extends \BaseController {
         $game = Game::find($id);
         $publishers = Publisher::all();
         $developers = Developer::all();
-        $requirements = Requirements::all();
         return View::make('game.edit')
             ->with('game', $game)
             ->with('publishers', $publishers)
-            ->with('developers', $developers)
-            ->with('requirements', $requirements);
+            ->with('developers', $developers);
     }
 
     /**
@@ -103,12 +101,22 @@ class GameController extends \BaseController {
                 'title' => 'required',
                 'publisher' => 'required',
                 'developer' => 'required',
-                'min' => 'required',
-                'rec' => 'required',
                 'metacritic_score' => 'required|min:1|max:10',
                 'release_date' => 'required',
                 'link_to_metacritic' => 'required',
-                'description' => 'required'
+                'description' => 'required',
+                'min_os' => 'required',
+                'min_cpu' => 'required',
+                'min_system_RAM' => 'required',
+                'min_graphics_card' => 'required',
+                'min_graphics_memory' => 'required',
+                'min_hard_drive_space' => 'required',
+                'os' => 'required',
+                'cpu' => 'required',
+                'system_RAM' => 'required',
+                'graphics_card' => 'required',
+                'graphics_memory' => 'required',
+                'hard_drive_space' => 'required'
             )
         );
         if($validator->fails()){
@@ -121,12 +129,30 @@ class GameController extends \BaseController {
             $game->title = Input::get('title');
             $game->publisher_id = Input::get('publisher');
             $game->developer_id = Input::get('developer');
-            $game->minimal_requirements_id = Input::get('min');
-            $game->recomended_requirements_id = Input::get('rec');
             $game->metacritic_score = Input::get('metacritic_score');
             $game->release_date = Input::get('release_date');
             $game->link_to_metacritic = Input::get('link_to_metacritic');
             $game->description = Input::get('description');
+
+            $m_requirement = new Requirements;
+            $m_requirement->os = Input::get('min_os');
+            $m_requirement->cpu = Input::get('min_cpu');
+            $m_requirement->system_RAM = Input::get('min_system_RAM');
+            $m_requirement->graphics_card = Input::get('min_graphics_card');
+            $m_requirement->graphics_memory = Input::get('min_graphics_memory');
+            $m_requirement->hard_drive_space = Input::get('min_hard_drive_space');
+            $m_requirement->save();
+            $game->minimal_requirements_id = $m_requirement->id;
+
+            $requirement = new Requirements;
+            $requirement->os = Input::get('os');
+            $requirement->cpu = Input::get('cpu');
+            $requirement->system_RAM = Input::get('system_RAM');
+            $requirement->graphics_card = Input::get('graphics_card');
+            $requirement->graphics_memory = Input::get('graphics_memory');
+            $requirement->hard_drive_space = Input::get('hard_drive_space');
+            $requirement->save();
+            $game->recomended_requirements_id = $requirement->id;
 
             if($game->save()){
                 return Redirect::route('game-show', $id)
