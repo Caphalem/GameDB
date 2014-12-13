@@ -247,23 +247,6 @@ Route::group(array('before' => 'guest'), function() {
     Route::post('/genre/delete', 'GenreController@handleDelete');
 
 
-    // connect with corresponding model.
-    Route::model('requirement', 'Requirements');
-//route for index page, call index method of controller
-    Route::get('/requirements', 'RequirementsController@index');
-//route for create requirements page.
-    Route::get('/requirements/create', 'RequirementsController@create');
-//route for edit requirements page.
-    Route::get('/requirements/edit/{requirement}', 'RequirementsController@edit');
-//route for delete requirements page
-    Route::get('/requirements/delete/{requirement}', 'RequirementsController@delete');
-// route for form submission call handleCreate method.
-    Route::post('/requirements/create', 'RequirementsController@handleCreate');
-//route to handle edit form submission
-    Route::post('/requirements/edit', 'RequirementsController@handleEdit');
-//route to handle delete.
-    Route::post('/requirements/delete', 'RequirementsController@handleDelete');
-
 Route::get('game/show/{id}', array(
      'as' => 'game-show',
      'uses' => 'GameController@showGameInfo'

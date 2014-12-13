@@ -98,12 +98,12 @@
         <br><a href="" id="rec_req">Recomended requirements</a>
         <div class="rec_req">
             <a href="" id="rec_hide">Hide recomended requirements</a><br>
-            OS: {{ $game->minimalRequirements->os }}<br>
-            CPU: {{ $game->minimalRequirements->cpu }}<br>
-            RAM: {{ $game->minimalRequirements->system_RAM }}<br>
-            Graphics card: {{ $game->minimalRequirements->graphics_card }}<br>
-            Graphics memory: {{ $game->minimalRequirements->graphics_memory }}<br>
-            Hard drive space: {{ $game->minimalRequirements->hard_drive_space }}
+            OS: {{ $game->recomendedRequirements->os }}<br>
+            CPU: {{ $game->recomendedRequirements->cpu }}<br>
+            RAM: {{ $game->recomendedRequirements->system_RAM }}<br>
+            Graphics card: {{ $game->recomendedRequirements->graphics_card }}<br>
+            Graphics memory: {{ $game->recomendedRequirements->graphics_memory }}<br>
+            Hard drive space: {{ $game->recomendedRequirements->hard_drive_space }}
         </div>
     </div>
     <div class="col-md-7">

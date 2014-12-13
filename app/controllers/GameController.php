@@ -134,7 +134,7 @@ class GameController extends \BaseController {
             $game->link_to_metacritic = Input::get('link_to_metacritic');
             $game->description = Input::get('description');
 
-            $m_requirement = new Requirements;
+            $m_requirement = Requirements::find($game->minimalRequirements->id);
             $m_requirement->os = Input::get('min_os');
             $m_requirement->cpu = Input::get('min_cpu');
             $m_requirement->system_RAM = Input::get('min_system_RAM');
@@ -144,7 +144,7 @@ class GameController extends \BaseController {
             $m_requirement->save();
             $game->minimal_requirements_id = $m_requirement->id;
 
-            $requirement = new Requirements;
+            $requirement = Requirements::find($game->recomendedRequirements->id);
             $requirement->os = Input::get('os');
             $requirement->cpu = Input::get('cpu');
             $requirement->system_RAM = Input::get('system_RAM');
@@ -354,9 +354,21 @@ class GameController extends \BaseController {
         //
     }
 
+    /**
+     * deletes game and its requirements
+     *
+     * @param $id
+     * @return mixed
+     */
     public function deleteGame($id)
     {
         $game = Game::find($id);
+        $min_rec_id = $game->minimal_requirements_id;
+        $rec_req_id = $game->recomended_requirements_id;
+        $min_req = Requirements::find($min_rec_id);
+        $rec_req = Requirements::find($rec_req_id);
+        $min_req->delete();
+        $rec_req->delete();
         $game->delete();
         return Redirect::route('game-show', $id);
     }

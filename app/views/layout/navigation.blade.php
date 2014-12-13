@@ -78,7 +78,6 @@
                           <li class="divider"></li>
                           <li><a tabindex="-1" href="{{ action('PublisherController@index') }}">Publishers</a></li>
                           <li><a tabindex="-1" href="{{ action('DeveloperController@index') }}">Developers</a></li>
-                          <li><a tabindex="-1" href="{{ action('RequirementsController@index') }}">Requirements</a></li>
                           <li><a tabindex="-1" href="{{ action('GenreController@index') }}">Genres</a></li>
                       </ul>
                   </li>
