@@ -189,14 +189,34 @@ class GameController extends \BaseController {
         $game->description = Input::get('description');
         $game->publisher_id = Input::get('publishers');
         $game->developer_id = Input::get('developers');
-        $game->minimal_requirements_id = Input::get('min_requirements');
-        $game->recomended_requirements_id = Input::get('rec_requirements');
+//        $game->minimal_requirements_id = Input::get('min_requirements');
+//        $game->recomended_requirements_id = Input::get('rec_requirements');
 
         $file = Input::file('box_art');
         $destinationPath = 'images/box_art';
         $filename = $file->getClientOriginalName();
         $game->box_art = $filename;
         Input::file('box_art')->move($destinationPath, $filename);
+
+        $m_requirement = new Requirements;
+        $m_requirement->os = Input::get('m_os');
+        $m_requirement->cpu = Input::get('m_cpu');
+        $m_requirement->system_RAM = Input::get('m_system_RAM');
+        $m_requirement->graphics_card = Input::get('m_graphics_card');
+        $m_requirement->graphics_memory = Input::get('m_graphics_memory');
+        $m_requirement->hard_drive_space = Input::get('m_hard_drive_space');
+        $m_requirement->save();
+        $game->minimal_requirements_id = $m_requirement->id;
+
+        $requirement = new Requirements;
+        $requirement->os = Input::get('os');
+        $requirement->cpu = Input::get('cpu');
+        $requirement->system_RAM = Input::get('system_RAM');
+        $requirement->graphics_card = Input::get('graphics_card');
+        $requirement->graphics_memory = Input::get('graphics_memory');
+        $requirement->hard_drive_space = Input::get('hard_drive_space');
+        $requirement->save();
+        $game->recomended_requirements_id = $requirement->id;
 
         $game->save();
 
