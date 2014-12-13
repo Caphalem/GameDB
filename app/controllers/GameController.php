@@ -1,6 +1,11 @@
 <?php
 
 class GameController extends \BaseController {
+
+    /** shows information about game
+     * @param $id
+     * @return mixed
+     */
     public function showGameInfo($id) {
         $game = Game::find($id);
         if ($game) {
@@ -21,6 +26,13 @@ class GameController extends \BaseController {
         return Redirect::route('home');
     }
 
+    /**
+     * adds game to favorite games list
+     *
+     * @param $user
+     * @param $game
+     * @return mixed
+     */
     public function addGameToList($user, $game) {
         $g = Game::find($game);
         $u = User::find($user);
@@ -31,6 +43,13 @@ class GameController extends \BaseController {
         return Redirect::route('game-show', $game);
     }
 
+    /**
+     * removes favorite game from list and returns to that game page
+     *
+     * @param $user
+     * @param $game
+     * @return mixed
+     */
     public function removeGameFromList($user, $game) {
         $g = Game::find($game);
         $u = User::find($user);
@@ -39,6 +58,13 @@ class GameController extends \BaseController {
         return Redirect::route('game-show', $game);
     }
 
+    /**
+     * removes favorite game from list and then redirects to favorite games page
+     *
+     * @param $user
+     * @param $game
+     * @return mixed
+     */
     public function removeFav($user, $game) {
         $g = Game::find($game);
         $u = User::find($user);
@@ -46,6 +72,13 @@ class GameController extends \BaseController {
         $fg->delete();
         return Redirect::route('favorite', $game);
     }
+
+    /**
+     * show game edition form
+     *
+     * @param $id
+     * @return mixed
+     */
     public function editGameInfo($id) {
         $game = Game::find($id);
         $publishers = Publisher::all();
@@ -58,6 +91,12 @@ class GameController extends \BaseController {
             ->with('requirements', $requirements);
     }
 
+    /**
+     * store edited game information into database
+     *
+     * @param $id
+     * @return mixed
+     */
     public function postEditGameInfo($id) {
         $validator = Validator::make(Input::all(),
             array(
@@ -175,57 +214,59 @@ class GameController extends \BaseController {
 	 */
 	public function store()
 	{
-        $game = new Game;
-        $game->title = Input::get('title');
+        if (Input::get('title') && Input::get('description') && Input::get('metacritic_link') && Input::get('m_os') && Input::get('m_cpu') && Input::get('m_system_RAM') && Input::get('m_graphics_card') && Input::get('m_graphics_memory') && Input::get('m_hard_drive_space') && Input::get('m_os') && Input::get('cpu') && Input::get('system_RAM') && Input::get('graphics_card') && Input::get('graphics_memory') && Input::get('hard_drive_space') && Input::file('box_art')) {
+            $game = new Game;
+            $game->title = Input::get('title');
 
-        $day = Input::get('day');
-        $month = Input::get('month');
-        $year = Input::get('year');
-        $date = array($year, $month, $day);
-        $rdate = implode('-', $date);
-        $game->release_date = $rdate;
+            $day = Input::get('day');
+            $month = Input::get('month');
+            $year = Input::get('year');
+            $date = array($year, $month, $day);
+            $rdate = implode('-', $date);
+            $game->release_date = $rdate;
 
-        $game->link_to_metacritic = Input::get('metacritic_link');
-        $game->description = Input::get('description');
-        $game->publisher_id = Input::get('publishers');
-        $game->developer_id = Input::get('developers');
-//        $game->minimal_requirements_id = Input::get('min_requirements');
-//        $game->recomended_requirements_id = Input::get('rec_requirements');
+            $game->link_to_metacritic = Input::get('metacritic_link');
+            $game->description = Input::get('description');
+            $game->publisher_id = Input::get('publishers');
+            $game->developer_id = Input::get('developers');
 
-        $file = Input::file('box_art');
-        $destinationPath = 'images/box_art';
-        $filename = $file->getClientOriginalName();
-        $game->box_art = $filename;
-        Input::file('box_art')->move($destinationPath, $filename);
+            $file = Input::file('box_art');
+            $destinationPath = 'images/box_art';
+            $filename = $file->getClientOriginalName();
+            $game->box_art = $filename;
+            Input::file('box_art')->move($destinationPath, $filename);
 
-        $m_requirement = new Requirements;
-        $m_requirement->os = Input::get('m_os');
-        $m_requirement->cpu = Input::get('m_cpu');
-        $m_requirement->system_RAM = Input::get('m_system_RAM');
-        $m_requirement->graphics_card = Input::get('m_graphics_card');
-        $m_requirement->graphics_memory = Input::get('m_graphics_memory');
-        $m_requirement->hard_drive_space = Input::get('m_hard_drive_space');
-        $m_requirement->save();
-        $game->minimal_requirements_id = $m_requirement->id;
+            $m_requirement = new Requirements;
+            $m_requirement->os = Input::get('m_os');
+            $m_requirement->cpu = Input::get('m_cpu');
+            $m_requirement->system_RAM = Input::get('m_system_RAM');
+            $m_requirement->graphics_card = Input::get('m_graphics_card');
+            $m_requirement->graphics_memory = Input::get('m_graphics_memory');
+            $m_requirement->hard_drive_space = Input::get('m_hard_drive_space');
+            $m_requirement->save();
+            $game->minimal_requirements_id = $m_requirement->id;
 
-        $requirement = new Requirements;
-        $requirement->os = Input::get('os');
-        $requirement->cpu = Input::get('cpu');
-        $requirement->system_RAM = Input::get('system_RAM');
-        $requirement->graphics_card = Input::get('graphics_card');
-        $requirement->graphics_memory = Input::get('graphics_memory');
-        $requirement->hard_drive_space = Input::get('hard_drive_space');
-        $requirement->save();
-        $game->recomended_requirements_id = $requirement->id;
+            $requirement = new Requirements;
+            $requirement->os = Input::get('os');
+            $requirement->cpu = Input::get('cpu');
+            $requirement->system_RAM = Input::get('system_RAM');
+            $requirement->graphics_card = Input::get('graphics_card');
+            $requirement->graphics_memory = Input::get('graphics_memory');
+            $requirement->hard_drive_space = Input::get('hard_drive_space');
+            $requirement->save();
+            $game->recomended_requirements_id = $requirement->id;
 
-        $game->save();
+            $game->save();
 
-        return Redirect::route('game-show', $game->id);
-        //publisher
-        //developer
-        //minimal requirements
-        //recommended requirements
-        //YYYY-MM-DD
+            return Redirect::route('game-show', $game->id);
+            //publisher
+            //developer
+            //minimal requirements
+            //recommended requirements
+            //YYYY-MM-DD
+        } else {
+            return Redirect::to('game/create');
+        }
 	}
 
     public function handleShow($id)
