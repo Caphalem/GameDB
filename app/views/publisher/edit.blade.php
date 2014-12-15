@@ -1,4 +1,9 @@
 @extends('layout.main')
+
+@section('head')
+    <title>Edit publisher</title>
+@stop
+
 @section('content')
 
 <div class="page-header" style="text-align: center">

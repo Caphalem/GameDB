@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('head')
+    <title>Change password</title>
+@stop
+
 @section('content')
     <form action="{{URL::route('account-change-password-post')}}" method = "post">
 

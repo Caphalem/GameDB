@@ -1,4 +1,9 @@
 @extends('layout.main')
+
+@section('head')
+    <title>Genres</title>
+@stop
+
 @section('content')
 <div class="page-header" style="text-align: center">
     <h1> <small>Genre Management </small> </h1>

@@ -23,7 +23,10 @@ Route::group(array('before' => 'auth'), function() {
                 'as' =>'account-change-password-post',
                 'uses'=>'AccountController@postChangePassword'
             ));
-
+            Route::post('/profile/change-information',array(
+                'as' => 'profile-change-post',
+                'uses' => 'ProfileController@postChangeProfile'
+            ));
 
         });
 
@@ -34,10 +37,27 @@ Route::group(array('before' => 'auth'), function() {
             'as' =>'account-change-password',
             'uses'=>'AccountController@getChangePassword'
         ));
-      /*
-     * | Sign out (GET)
-     */
 
+    /*
+    * | Profile (GET)
+    */
+
+    Route::get('/profile/user',array(
+        'as' => 'profile-user',
+        'uses' => 'ProfileController@getProfile'
+    ));
+
+    /*
+    * | Change Profile (GET)
+    */
+
+    Route::get('/profile/change-information',array(
+        'as' => 'profile-change',
+        'uses' => 'ProfileController@getChangeProfile'
+    ));
+  /*
+ * | Sign out (GET)
+ */
     Route::get('/account/sign-out',array(
         'as' => 'account-sign-out',
         'uses' => 'AccountController@getSignOut'
@@ -74,6 +94,8 @@ Route::group(array('before' => 'auth'), function() {
             'uses' => 'GameController@deleteGame'
         ));
 
+        Route::resource('game', 'GameController');
+
     });
 
     Route::get('game/add/{user}/{game}', array(
@@ -96,6 +118,11 @@ Route::group(array('before' => 'auth'), function() {
         'uses' => 'GameController@favorite'
     ));
 
+    Route::get('review-delete/{gid}/{rid}', array(
+        'as' => 'review-delete',
+        'uses' => 'GameController@deleteReview'
+    ));
+
 });
 /*
  * | Unautheticated group
@@ -113,7 +140,25 @@ Route::group(array('before' => 'guest'), function() {
             'as' => 'account-create-post',
             'uses' =>'AccountController@postCreate'
         ));
+        /*
+        Forgot password (Post)
+        */
+        Route::post('/account/forgot-password', array(
+            'as' => 'account-forgot-password-post',
+            'uses' =>'AccountController@postForgotPassword'
+        ));
     });
+        /*
+       Forgot password (Get)
+       */
+    Route::get('/account/forgot-password', array(
+        'as' => 'account-forgot-password',
+        'uses' =>'AccountController@getForgotPassword'
+    ));
+    Route::get('/account/recover/{code}', array(
+        'as' => 'account-recover',
+        'uses' =>'AccountController@getRecover'
+    ));
 
     /*
       Sign in (Post)
@@ -202,30 +247,13 @@ Route::group(array('before' => 'guest'), function() {
     Route::post('/genre/delete', 'GenreController@handleDelete');
 
 
-    // connect with corresponding model.
-    Route::model('requirement', 'Requirements');
-//route for index page, call index method of controller
-    Route::get('/requirements', 'RequirementsController@index');
-//route for create requirements page.
-    Route::get('/requirements/create', 'RequirementsController@create');
-//route for edit requirements page.
-    Route::get('/requirements/edit/{requirement}', 'RequirementsController@edit');
-//route for delete requirements page
-    Route::get('/requirements/delete/{requirement}', 'RequirementsController@delete');
-// route for form submission call handleCreate method.
-    Route::post('/requirements/create', 'RequirementsController@handleCreate');
-//route to handle edit form submission
-    Route::post('/requirements/edit', 'RequirementsController@handleEdit');
-//route to handle delete.
-    Route::post('/requirements/delete', 'RequirementsController@handleDelete');
-
 Route::get('game/show/{id}', array(
      'as' => 'game-show',
      'uses' => 'GameController@showGameInfo'
 ));
 
 
-    Route::resource('game', 'GameController');
+
 
     Route::get('game/show/{id}', array(
     'as' => 'game-show',
@@ -234,3 +262,18 @@ Route::get('game/show/{id}', array(
 
     Route::post('game/show/{id}', array('before'=>'csrf', 'uses' => 'GameController@handleShow' ));
 
+
+Route::post('/results/bytitle', array(
+    'as' => 'byTitle',
+    'uses' => 'HomeController@orderByTitle'
+));
+
+Route::post('/results/byrelease', array(
+    'as' => 'byRelease',
+    'uses' => 'HomeController@orderByRelease'
+));
+
+Route::post('/results/bypublisher', array(
+    'as' => 'byPublisher',
+    'uses' => 'HomeController@orderByPublisher'
+));

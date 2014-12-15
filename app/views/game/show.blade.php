@@ -1,4 +1,9 @@
 @extends('layout.main')
+
+@section('head')
+    <title>{{ $game->title }}</title>
+@stop
+
 @section('content')
 
 {{HTML::script('js/expanding.js')}}
@@ -78,7 +83,7 @@
         <b>Metacritic score: </b>{{ $game->metacritic_score }}<br>
         <b>User rating: </b>{{ $game->user_rating }}<br>
         <b>Release date: </b>{{ $game->release_date }}<br>
-        <b>Link to metacritic: </b>{{ $game->link_to_metacritic }}<br><br>
+        <b>Link to metacritic: </b><a href="{{ $game->link_to_metacritic }}" target="_blank">{{ $game->link_to_metacritic }}</a><br><br>
 
         <a href="" id="min_req">Minimal requirements</a>
         <div class="min_req">
@@ -93,12 +98,12 @@
         <br><a href="" id="rec_req">Recomended requirements</a>
         <div class="rec_req">
             <a href="" id="rec_hide">Hide recomended requirements</a><br>
-            OS: {{ $game->minimalRequirements->os }}<br>
-            CPU: {{ $game->minimalRequirements->cpu }}<br>
-            RAM: {{ $game->minimalRequirements->system_RAM }}<br>
-            Graphics card: {{ $game->minimalRequirements->graphics_card }}<br>
-            Graphics memory: {{ $game->minimalRequirements->graphics_memory }}<br>
-            Hard drive space: {{ $game->minimalRequirements->hard_drive_space }}
+            OS: {{ $game->recomendedRequirements->os }}<br>
+            CPU: {{ $game->recomendedRequirements->cpu }}<br>
+            RAM: {{ $game->recomendedRequirements->system_RAM }}<br>
+            Graphics card: {{ $game->recomendedRequirements->graphics_card }}<br>
+            Graphics memory: {{ $game->recomendedRequirements->graphics_memory }}<br>
+            Hard drive space: {{ $game->recomendedRequirements->hard_drive_space }}
         </div>
     </div>
     <div class="col-md-7">
@@ -134,7 +139,7 @@
                 @for ($i=1; $i <= 5 ; $i++)
                 <span class="glyphicon glyphicon-star{{ ($i <= $review->rating) ? '' : '-empty'}}"></span>
                 @endfor
-                {{ $review->user ? $review->user->username : 'Anonymous'}} <span class="pull-right">{{$review->timeago}}</span>
+                {{ $review->user ? $review->user->username : 'Anonymous'}} <span class="pull-right">{{$review->timeago}}<br><a href="{{ URL::route('review-delete', array($game->id, $review->id)) }}" onclick="return confirm('Are you really want to delete this review?')">Delete review</a><br></span>
                 <p>{{{$review->content}}}</p>
             </div>
         </div>
