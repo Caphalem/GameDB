@@ -116,9 +116,11 @@
     <span class="glyphicon glyphicon-star{{ ($i <= $game->rating_cache) ? '' : '-empty'}}"></span>
     @endfor
     {{ number_format($game->rating_cache, 1);}} stars
-    <div class="text-right">
-        <a id="open-review-box" class="btn btn-success btn-green">Leave a Review</a>
-    </div>
+    @if(Auth::check())
+        <div class="text-right">
+            <a id="open-review-box" class="btn btn-success btn-green">Leave a Review</a>
+        </div>
+    @endif
     <div class="row" id="post-review-box" style="display:none;">
         <div class="col-md-12">
             {{Form::open()}}
@@ -140,10 +142,14 @@
             <span class="glyphicon glyphicon-star{{ ($i <= $review->rating) ? '' : '-empty'}}"></span>
             @endfor
             {{ $review->user ? $review->user->username : 'Anonymous'}} <span class="pull-right">{{$review->timeago}}<br>
+            @if(Auth::check())
+                @if(Auth::user()->role > 0 || $review->user->id == Auth::user()->id)
                     <a href="{{ URL::route('review-delete', array($game->id, $review->id)) }}" onclick="return confirm('Are you really want to delete this review?')"
                        class="btn-group btn-sm btn-danger pull-right"><span class="glyphicon glyphicon-remove"></span></a>
                 <a href="{{ URL::route('review-edit', array($game->id, $review->id)) }}" class="btn-group btn-sm btn-default pull-right"><span class="glyphicon glyphicon-edit"></span></a>
-                <p>{{{$review->content}}}</p>
+                @endif
+            @endif
+            <p>{{{$review->content}}}</p>
         </div>
     </div>
     @endforeach
