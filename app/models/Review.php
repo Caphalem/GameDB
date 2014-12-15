@@ -20,6 +20,7 @@ class Review extends Eloquent {
     public function getCreateRules()
     {
         return array(
+            'content'=>'required',
             'rating'=>'required|integer|between:1,5'
         );
     }
