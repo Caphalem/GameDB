@@ -373,4 +373,21 @@ class GameController extends \BaseController {
         return Redirect::route('game-show', $id);
     }
 
+    public function editReview($gameid, $reviewid)
+    {
+        $review = Review::find($reviewid);
+        $game = Game::find($gameid);
+        return View::make('game.review-edit')->with('game', $game)->with('review', $review);
+    }
+
+    public function handleReviewEdit($gameid, $reviewid)
+    {
+        $review = Review::findOrFail(Input::get('rid'));
+        $gid = Input::get('gid');
+        $review->content = Input::get('content');
+        $review->save();
+        return Redirect::action('GameController@showGameInfo', $gid);
+    }
+
+
 }

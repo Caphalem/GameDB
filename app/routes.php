@@ -123,6 +123,14 @@ Route::group(array('before' => 'auth'), function() {
         'uses' => 'GameController@deleteReview'
     ));
 
+    Route::get('review-edit/{gid}/{rid}', array(
+        'as' => 'review-edit',
+        'uses' => 'GameController@editReview'
+    ));
+
+    Route::post('review-edit/{gid}/{rid}', array(
+        'uses' => 'GameController@handleReviewEdit'
+    ));
 });
 /*
  * | Unautheticated group
@@ -261,7 +269,6 @@ Route::get('game/show/{id}', array(
 
 
     Route::post('game/show/{id}', array('before'=>'csrf', 'uses' => 'GameController@handleShow' ));
-
 
 Route::post('/results/bytitle', array(
     'as' => 'byTitle',
