@@ -95,13 +95,13 @@ class HomeController extends BaseController {
         $p = 2;
         $d = Input::get('d');
         if ($d <> 1) {
-            $games = Game::select('games.title', 'games.publisher_id', 'games.developer_id', 'games.release_date', 'developers.id', 'developers.title AS dev_title')
+            $games = Game::select('games.title', 'games.publisher_id', 'games.developer_id', 'games.release_date', 'games.box_art', 'developers.id', 'developers.title AS dev_title')
                 ->where('games.title', 'LIKE', '%' . $query . '%')->join('developers', 'games.developer_id', '=', 'developers.id')
                 ->orderBy('dev_title', 'ASC')->get();
             $d = 1;
         }
         else {
-            $games = Game::select('games.title', 'games.publisher_id', 'games.developer_id', 'games.release_date', 'developers.id', 'developers.title AS dev_title')
+            $games = Game::select('games.title', 'games.publisher_id', 'games.developer_id', 'games.release_date', 'games.box_art', 'developers.id', 'developers.title AS dev_title')
                 ->where('games.title', 'LIKE', '%' . $query . '%')->join('developers', 'games.developer_id', '=', 'developers.id')
                 ->orderBy('dev_title', 'DESC')->get();
             $d = 0;
