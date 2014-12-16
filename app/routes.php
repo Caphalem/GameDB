@@ -284,3 +284,8 @@ Route::post('/results/bypublisher', array(
     'as' => 'byPublisher',
     'uses' => 'HomeController@orderByPublisher'
 ));
+
+Route::post('/results/bydeveloper', array(
+    'as' => 'byDeveloper',
+    'uses' => 'HomeController@orderByDeveloper'
+));
