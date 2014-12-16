@@ -8,7 +8,7 @@
 @if(Auth::check())
 @if(Auth::user()->role == 2)
 <div class="page-header" style="text-align: center">
-    <h1> <small>Edit Movie</small> </h1>
+    <h1> <small>Edit Review</small> </h1>
     </p></div>
 
 <form action="{{ action('GameController@handleReviewEdit') }}" method="post" role="form">
